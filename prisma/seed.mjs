@@ -1,11 +1,14 @@
-const { PrismaClient } = require("@prisma/client");
-const { adapter } = require("@prisma/adapter-sqlite");
-const bcryptjs = require("bcryptjs");
-const Database = require("better-sqlite3");
+import pkg from "@prisma/client";
+import Database from "better-sqlite3";
+import bcryptjs from "bcryptjs";
 
-const db = new Database(process.env.DATABASE_URL?.replace("file:", "") || "dev.db");
+const { PrismaClient } = pkg;
+
+const dbPath = process.env.DATABASE_URL?.replace("file:", "") || "dev.db";
+const sqliteDb = new Database(dbPath);
+
 const prisma = new PrismaClient({
-  adapter: adapter(db),
+  adapter: sqliteDb,
 });
 
 async function main() {
@@ -40,7 +43,7 @@ async function main() {
       { name: "admin:full:access", description: "Full admin access (all permissions)" },
     ];
 
-    const permissionMap: Record<string, string> = {};
+    const permissionMap = {};
     for (const perm of permissions) {
       const created = await prisma.permission.upsert({
         where: { name: perm.name },
