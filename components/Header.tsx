@@ -2,80 +2,85 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { Bell, Search, Moon, Sun } from 'lucide-react'
 import { useState } from 'react'
-import { Menu, X } from 'lucide-react'
 
 const CATEGORIES = [
-  { name: 'Breaking News', slug: 'breaking-news' },
-  { name: 'Politics', slug: 'politics' },
-  { name: 'Crime', slug: 'crime' },
-  { name: 'Education', slug: 'education' },
-  { name: 'Weather', slug: 'weather' },
-  { name: 'Sports', slug: 'sports' },
+  { name: 'Breaking', slug: 'breaking-news', icon: '🔴' },
+  { name: 'Politics', slug: 'politics', icon: '🏛' },
+  { name: 'Crime', slug: 'crime', icon: '🚔' },
+  { name: 'Weather', slug: 'weather', icon: '🌧' },
+  { name: 'Sports', slug: 'sports', icon: '⚽' },
+  { name: 'Education', slug: 'education', icon: '🎓' },
 ]
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [showSearch, setShowSearch] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+    <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-blue-950 dark:to-slate-950 border-b border-blue-800/30 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Bar */}
-        <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0">
-            <Image
-              src="/logo/livepalakkad-icon.png"
-              alt="LivePalakkad"
-              width={40}
-              height={40}
-              className="w-10 h-10"
-            />
+        {/* Main Navigation */}
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+            <div className="relative">
+              <Image
+                src="/logo/livepalakkad-icon.png"
+                alt="LivePalakkad"
+                width={44}
+                height={44}
+                className="w-11 h-11 group-hover:scale-110 transition"
+              />
+              <div className="absolute -inset-1 bg-blue-500/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition -z-10" />
+            </div>
             <div className="hidden sm:block">
-              <h1 className="text-xl font-black text-slate-900 dark:text-white">LivePalakkad</h1>
-              <p className="text-xs text-slate-500 dark:text-slate-400">Palakkad First</p>
+              <h1 className="text-xl font-black bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">LivePalakkad</h1>
+              <p className="text-xs text-blue-300">Palakkad First</p>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {CATEGORIES.slice(0, 4).map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/category/${cat.slug}`}
-                className="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition"
-              >
-                {cat.name}
-              </Link>
-            ))}
-            <Link href="/desk" className="text-sm font-medium px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
-              Admin
-            </Link>
-          </nav>
-
-          {/* Mobile Menu Toggle */}
-          <button
-            className="md:hidden p-2 text-slate-600 dark:text-slate-300"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <nav className="md:hidden pb-4 border-t border-slate-200 dark:border-slate-800">
+          {/* Desktop Categories */}
+          <nav className="hidden lg:flex items-center gap-1">
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.slug}
                 href={`/category/${cat.slug}`}
-                className="block py-2 px-4 text-sm font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
-                onClick={() => setMobileMenuOpen(false)}
+                className="px-3 py-2 text-sm font-medium text-blue-100 hover:bg-white/10 rounded-lg transition"
               >
                 {cat.name}
               </Link>
             ))}
           </nav>
-        )}
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-3">
+            <button className="p-2 rounded-lg hover:bg-white/10 transition text-blue-200">
+              <Search size={20} />
+            </button>
+            <button className="p-2 rounded-lg hover:bg-white/10 transition text-blue-200 relative">
+              <Bell size={20} />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
+            </button>
+            <Link
+              href="/desk"
+              className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold rounded-lg hover:from-blue-700 hover:to-blue-600 transition shadow-lg hover:shadow-blue-500/50"
+            >
+              Admin
+            </Link>
+          </div>
+        </div>
+
+        {/* Secondary Navigation */}
+        <div className="hidden lg:flex items-center gap-6 pb-4 text-sm border-t border-blue-800/20 pt-4">
+          <Link href="/latest" className="text-blue-200 hover:text-white font-medium transition">Latest</Link>
+          <Link href="/explore" className="text-blue-200 hover:text-white font-medium transition">Explore</Link>
+          <Link href="/photos" className="text-blue-200 hover:text-white font-medium transition">Photos</Link>
+          <Link href="/videos" className="text-blue-200 hover:text-white font-medium transition">Videos</Link>
+          <Link href="/live" className="text-blue-200 hover:text-white font-medium transition flex items-center gap-1">
+            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" /> Live
+          </Link>
+        </div>
       </div>
     </header>
   )

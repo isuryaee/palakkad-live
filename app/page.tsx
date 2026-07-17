@@ -3,9 +3,15 @@ import Footer from '@/components/Footer'
 import ArticleCard from '@/components/ArticleCard'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Calendar, MapPin } from 'lucide-react'
+import { AlertCircle, Zap, Camera, Video, TrendingUp, MapPin, Clock, Eye, Radio, Share2, Bookmark, Radio as RadioIcon } from 'lucide-react'
 
-// Static mock data - dates are fixed strings to prevent hydration mismatch
+const BREAKING_NEWS = {
+  id: 0,
+  slug: 'heavy-rains-alert',
+  title: 'Yellow Alert: Heavy Rains Expected This Week',
+  excerpt: 'IMD issues warning for potential flooding. Residents advised to stay alert.'
+}
+
 const MOCK_ARTICLES = [
   {
     id: 1,
@@ -17,6 +23,7 @@ const MOCK_ARTICLES = [
     categorySlug: 'weather',
     publishedAt: '2 hours ago',
     isBreaking: false,
+    views: 2450
   },
   {
     id: 2,
@@ -28,6 +35,7 @@ const MOCK_ARTICLES = [
     categorySlug: 'education',
     publishedAt: '4 hours ago',
     isBreaking: false,
+    views: 1890
   },
   {
     id: 3,
@@ -39,6 +47,7 @@ const MOCK_ARTICLES = [
     categorySlug: 'politics',
     publishedAt: '6 hours ago',
     isBreaking: false,
+    views: 3120
   },
   {
     id: 4,
@@ -50,138 +59,200 @@ const MOCK_ARTICLES = [
     categorySlug: 'entertainment',
     publishedAt: '8 hours ago',
     isBreaking: false,
+    views: 1540
   },
 ]
 
+const TRENDING = [
+  { id: 1, title: 'Monsoon Preparedness Drive Underway', views: 5420 },
+  { id: 2, title: 'Engineering College Gets Accreditation', views: 4980 },
+  { id: 3, title: 'Roads to Get Major Repairs', views: 4120 },
+]
+
 const CATEGORIES = [
-  { name: 'Breaking News', slug: 'breaking-news', icon: '🔴' },
-  { name: 'Politics', slug: 'politics', icon: '🏛' },
-  { name: 'Crime', slug: 'crime', icon: '🚔' },
-  { name: 'Education', slug: 'education', icon: '🎓' },
-  { name: 'Weather', slug: 'weather', icon: '🌧' },
-  { name: 'Sports', slug: 'sports', icon: '⚽' },
-  { name: 'Business', slug: 'business', icon: '💼' },
-  { name: 'Entertainment', slug: 'entertainment', icon: '🎭' },
+  { name: 'Breaking', slug: 'breaking-news', icon: AlertCircle },
+  { name: 'Politics', slug: 'politics', icon: RadioIcon },
+  { name: 'Crime', slug: 'crime', icon: AlertCircle },
+  { name: 'Weather', slug: 'weather', icon: Zap },
+  { name: 'Sports', slug: 'sports', icon: TrendingUp },
+  { name: 'Education', slug: 'education', icon: Radio },
+  { name: 'Business', slug: 'business', icon: TrendingUp },
+  { name: 'Entertainment', slug: 'entertainment', icon: Camera },
 ]
 
 const LOCATIONS = [
-  { name: 'Palakkad Town', slug: 'palakkad-town' },
-  { name: 'Ottapalam', slug: 'ottapalam' },
-  { name: 'Mannarkkad', slug: 'mannarkkad' },
-  { name: 'Chittur', slug: 'chittur' },
+  { name: 'Palakkad Town', slug: 'palakkad-town', articles: 1240 },
+  { name: 'Ottapalam', slug: 'ottapalam', articles: 890 },
+  { name: 'Mannarkkad', slug: 'mannarkkad', articles: 670 },
+  { name: 'Chittur', slug: 'chittur', articles: 540 },
 ]
 
 export default function HomePage() {
-  const heroArticle = MOCK_ARTICLES[0]
-  const latestArticles = MOCK_ARTICLES.slice(1)
-
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
       <Header />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Hero Section */}
-        <section className="mb-12">
-          <Link href={`/articles/${heroArticle.slug}`}>
-            <article className="group relative rounded-xl overflow-hidden bg-slate-900 h-96 md:h-[500px]">
-              <Image
-                src={heroArticle.image}
-                alt={heroArticle.title}
-                fill
-                className="object-cover group-hover:scale-105 transition duration-300"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="px-3 py-1 bg-red-600 text-xs font-bold rounded">FEATURED</span>
-                  <span className="text-sm font-medium text-slate-300">{heroArticle.category}</span>
-                </div>
-                <h2 className="text-3xl md:text-4xl font-black leading-tight mb-2 text-balance">{heroArticle.title}</h2>
-                <p className="text-sm text-slate-300">{heroArticle.publishedAt}</p>
-              </div>
-            </article>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Breaking News Alert */}
+        <div className="mb-8 p-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg flex items-center gap-4 shadow-lg">
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="w-3 h-3 bg-red-300 rounded-full animate-pulse" />
+            <span className="font-black text-sm uppercase">Breaking</span>
+          </div>
+          <div className="flex-1">
+            <p className="font-black text-lg">{BREAKING_NEWS.title}</p>
+            <p className="text-red-100 text-sm mt-1">{BREAKING_NEWS.excerpt}</p>
+          </div>
+          <Link href={`/articles/${BREAKING_NEWS.slug}`} className="px-4 py-2 bg-white text-red-600 font-bold rounded hover:bg-red-50 transition flex-shrink-0">
+            Read
           </Link>
-        </section>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Main Feed */}
-          <div className="lg:col-span-2 space-y-6">
-            <h2 className="text-2xl font-black flex items-center gap-2">
-              <Calendar size={24} /> Latest News
-            </h2>
-            <div className="space-y-4">
-              {latestArticles.map((article) => (
-                <ArticleCard
-                  key={article.id}
-                  {...article}
-                  layout="horizontal"
-                />
-              ))}
-            </div>
-            <Link
-              href="/latest"
-              className="block text-center py-3 px-6 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 transition"
-            >
-              View All Articles
-            </Link>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Hero Article */}
+            <section>
+              <Link href={`/articles/${MOCK_ARTICLES[0].slug}`}>
+                <article className="group relative rounded-xl overflow-hidden h-[400px] shadow-xl hover:shadow-2xl transition">
+                  <Image
+                    src={MOCK_ARTICLES[0].image}
+                    alt={MOCK_ARTICLES[0].title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="px-3 py-1 bg-blue-600 text-xs font-black rounded-full uppercase">Featured</span>
+                      <span className="text-xs font-bold text-blue-200">{MOCK_ARTICLES[0].category}</span>
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-black leading-tight mb-3 text-balance">{MOCK_ARTICLES[0].title}</h2>
+                    <div className="flex items-center gap-4 text-sm text-slate-300">
+                      <span className="flex items-center gap-1"><Clock size={14} /> {MOCK_ARTICLES[0].publishedAt}</span>
+                      <span className="flex items-center gap-1"><Eye size={14} /> {MOCK_ARTICLES[0].views} views</span>
+                    </div>
+                  </div>
+                </article>
+              </Link>
+            </section>
+
+            {/* Latest News */}
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-2xl font-black flex items-center gap-2">
+                  <RadioIcon size={24} className="text-blue-600" /> Latest News
+                </h3>
+                <Link href="/latest" className="text-blue-600 font-bold text-sm hover:underline">View All →</Link>
+              </div>
+              <div className="space-y-4">
+                {MOCK_ARTICLES.slice(1).map((article) => (
+                  <ArticleCard key={article.id} {...article} layout="horizontal" />
+                ))}
+              </div>
+            </section>
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-8">
-            {/* Categories */}
-            <div>
-              <h3 className="text-lg font-black mb-4">Categories</h3>
-              <div className="grid grid-cols-2 gap-2">
-                {CATEGORIES.map((cat) => (
-                  <Link
-                    key={cat.slug}
-                    href={`/category/${cat.slug}`}
-                    className="p-3 bg-slate-100 dark:bg-slate-800 rounded hover:bg-slate-200 dark:hover:bg-slate-700 transition text-sm font-medium text-center"
-                  >
-                    <span className="block mb-1">{cat.icon}</span>
-                    {cat.name}
-                  </Link>
-                ))}
-              </div>
-            </div>
+          {/* Right Sidebar */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Featured Sections Grid */}
+            <div className="grid grid-cols-2 gap-4">
+              <Link href="/photos" className="group relative rounded-lg overflow-hidden h-32 bg-slate-800 shadow-lg hover:shadow-xl transition">
+                <Image
+                  src="https://images.unsplash.com/photo-1606986628025-35d57e735ae0?w=300&h=300&fit=crop"
+                  alt="Photo Gallery"
+                  fill
+                  className="object-cover group-hover:scale-110 transition duration-300"
+                />
+                <div className="absolute inset-0 bg-black/50 group-hover:bg-black/60 transition flex items-center justify-center">
+                  <div className="text-center text-white">
+                    <Camera size={32} className="mx-auto mb-2" />
+                    <p className="font-black text-sm">Photo Gallery</p>
+                  </div>
+                </div>
+              </Link>
 
-            {/* Locations */}
-            <div>
-              <h3 className="text-lg font-black mb-4 flex items-center gap-2">
-                <MapPin size={20} /> Locations
-              </h3>
-              <div className="space-y-2">
-                {LOCATIONS.map((loc) => (
-                  <Link
-                    key={loc.slug}
-                    href={`/location/${loc.slug}`}
-                    className="block p-3 bg-slate-100 dark:bg-slate-800 rounded hover:bg-slate-200 dark:hover:bg-slate-700 transition text-sm font-medium"
-                  >
-                    {loc.name}
-                  </Link>
-                ))}
-              </div>
-              <Link
-                href="/locations"
-                className="block mt-3 text-center py-2 px-4 bg-slate-200 dark:bg-slate-800 rounded text-sm font-medium hover:bg-slate-300 dark:hover:bg-slate-700 transition"
-              >
-                View All Locations
+              <Link href="/videos" className="group relative rounded-lg overflow-hidden h-32 bg-slate-800 shadow-lg hover:shadow-xl transition">
+                <Image
+                  src="https://images.unsplash.com/photo-1491480144351-f8d30750957d?w=300&h=300&fit=crop"
+                  alt="Videos"
+                  fill
+                  className="object-cover group-hover:scale-110 transition duration-300"
+                />
+                <div className="absolute inset-0 bg-black/50 group-hover:bg-black/60 transition flex items-center justify-center">
+                  <div className="text-center text-white">
+                    <Video size={32} className="mx-auto mb-2" />
+                    <p className="font-black text-sm">Video Gallery</p>
+                  </div>
+                </div>
+              </Link>
+
+              <Link href="/live" className="group relative rounded-lg overflow-hidden h-32 bg-slate-800 shadow-lg hover:shadow-xl transition">
+                <Image
+                  src="https://images.unsplash.com/photo-1505355299627-b1f5f3854f4e?w=300&h=300&fit=crop"
+                  alt="Live"
+                  fill
+                  className="object-cover group-hover:scale-110 transition duration-300"
+                />
+                <div className="absolute inset-0 bg-black/50 group-hover:bg-black/60 transition flex items-center justify-center">
+                  <div className="text-center text-white">
+                    <RadioIcon size={32} className="mx-auto mb-2" />
+                    <p className="font-black text-sm">Live Updates</p>
+                  </div>
+                </div>
+              </Link>
+
+              <Link href="/explore" className="group relative rounded-lg overflow-hidden h-32 bg-slate-800 shadow-lg hover:shadow-xl transition">
+                <Image
+                  src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=300&h=300&fit=crop"
+                  alt="Explore"
+                  fill
+                  className="object-cover group-hover:scale-110 transition duration-300"
+                />
+                <div className="absolute inset-0 bg-black/50 group-hover:bg-black/60 transition flex items-center justify-center">
+                  <div className="text-center text-white">
+                    <MapPin size={32} className="mx-auto mb-2" />
+                    <p className="font-black text-sm">Explore</p>
+                  </div>
+                </div>
               </Link>
             </div>
 
-            {/* Newsletter */}
-            <div className="bg-gradient-to-br from-blue-600 to-blue-700 text-white p-6 rounded-lg">
-              <h3 className="font-black mb-2">Get Breaking News</h3>
-              <p className="text-sm text-blue-100 mb-4">Subscribe to our newsletter for the latest updates from Palakkad.</p>
-              <form className="space-y-2">
+            {/* Trending */}
+            <div className="bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-900 dark:to-black text-white rounded-xl p-6 shadow-lg">
+              <h4 className="font-black text-lg mb-4 flex items-center gap-2">
+                <TrendingUp size={20} className="text-orange-500" /> Trending Now
+              </h4>
+              <div className="space-y-3">
+                {TRENDING.map((item, idx) => (
+                  <Link
+                    key={item.id}
+                    href="#"
+                    className="flex items-start gap-3 p-3 rounded hover:bg-white/10 transition group"
+                  >
+                    <span className="text-2xl font-black text-orange-500 flex-shrink-0">0{idx + 1}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-bold text-sm leading-tight group-hover:text-orange-400 transition line-clamp-2">{item.title}</p>
+                      <p className="text-xs text-slate-400 mt-1 flex items-center gap-1"><Eye size={12} /> {item.views.toLocaleString()} views</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Newsletter Signup */}
+            <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl p-6 shadow-lg text-white">
+              <h4 className="font-black text-lg mb-2">Newsletter</h4>
+              <p className="text-sm text-blue-100 mb-4">Get daily updates directly to your inbox</p>
+              <form className="space-y-3">
                 <input
                   type="email"
-                  placeholder="Enter your email"
-                  className="w-full px-3 py-2 rounded bg-white/20 text-white placeholder-blue-200 text-sm"
+                  placeholder="Your email"
+                  className="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white placeholder-blue-100 text-sm focus:outline-none focus:border-white/50 transition"
                 />
                 <button
                   type="submit"
-                  className="w-full px-3 py-2 bg-white text-blue-600 font-bold rounded hover:bg-blue-50 transition"
+                  className="w-full px-4 py-2 bg-white text-blue-600 font-black rounded-lg hover:bg-blue-50 transition"
                 >
                   Subscribe
                 </button>
@@ -189,6 +260,56 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        {/* Categories Section */}
+        <section className="mb-12">
+          <h3 className="text-2xl font-black mb-6">Browse Categories</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3">
+            {CATEGORIES.map((cat) => {
+              const Icon = cat.icon
+              return (
+                <Link
+                  key={cat.slug}
+                  href={`/category/${cat.slug}`}
+                  className="group p-4 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-blue-600 dark:hover:border-blue-500 shadow hover:shadow-lg transition text-center"
+                >
+                  <Icon size={32} className="mx-auto mb-2 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition" />
+                  <p className="text-xs font-bold text-slate-900 dark:text-white">{cat.name}</p>
+                </Link>
+              )
+            })}
+          </div>
+        </section>
+
+        {/* Locations Section */}
+        <section>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-2xl font-black flex items-center gap-2">
+              <MapPin size={24} className="text-blue-600" /> Palakkad Locations
+            </h3>
+            <Link href="/locations" className="text-blue-600 font-bold text-sm hover:underline">View All →</Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {LOCATIONS.map((loc) => (
+              <Link
+                key={loc.slug}
+                href={`/location/${loc.slug}`}
+                className="group p-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg hover:border-blue-600 dark:hover:border-blue-500 shadow hover:shadow-lg transition"
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div>
+                    <h4 className="font-black text-lg group-hover:text-blue-600 transition">{loc.name}</h4>
+                  </div>
+                  <MapPin size={20} className="text-blue-600 flex-shrink-0" />
+                </div>
+                <p className="text-sm text-slate-600 dark:text-slate-400">{loc.articles} recent articles</p>
+                <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+                  <p className="text-xs text-slate-500 dark:text-slate-400">Tap to explore →</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
       </main>
 
       <Footer />
