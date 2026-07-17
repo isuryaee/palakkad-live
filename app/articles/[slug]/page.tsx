@@ -1,13 +1,10 @@
-'use client'
-
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Share2, MessageCircle, Calendar, MapPin, User } from 'lucide-react'
-import { useState } from 'react'
 
-// Mock article data
+// Mock article data - using static strings for dates to prevent hydration mismatch
 const ARTICLE = {
   title: 'Civic Body Launches Monsoon Preparedness Drive in Palakkad',
   slug: 'civic-body-launches-monsoon-preparedness',
@@ -17,8 +14,8 @@ const ARTICLE = {
   location: 'Palakkad Town',
   locationSlug: 'palakkad-town',
   author: 'John Reporter',
-  publishedAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
-  updatedAt: new Date(Date.now() - 60 * 60 * 1000),
+  publishedAt: '2 hours ago',
+  updatedAt: '1 hour ago',
   readTime: '5 min read',
   content: `
     <p>The Palakkad Municipal Corporation has launched a comprehensive monsoon preparedness drive to ensure the city remains protected during the upcoming heavy rainfall season.</p>
@@ -40,23 +37,6 @@ const RELATED_ARTICLES = [
 ]
 
 export default function ArticlePage() {
-  const [commentText, setCommentText] = useState('')
-
-  const shareOnWhatsApp = () => {
-    const text = `Check out this article: ${ARTICLE.title}`
-    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`
-    window.open(url, '_blank')
-  }
-
-  const shareOnFacebook = () => {
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`, '_blank')
-  }
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href)
-    alert('Link copied to clipboard!')
-  }
-
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       <Header />
@@ -89,7 +69,7 @@ export default function ArticlePage() {
             </div>
             <div className="flex items-center gap-2">
               <Calendar size={16} />
-              <span>{new Date(ARTICLE.publishedAt).toLocaleDateString()}</span>
+              <span>{ARTICLE.publishedAt}</span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin size={16} />
@@ -172,22 +152,6 @@ export default function ArticlePage() {
           <h2 className="text-2xl font-black mb-6 flex items-center gap-2">
             <MessageCircle size={24} /> Comments
           </h2>
-          
-          <form className="mb-8">
-            <textarea
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              placeholder="Share your thoughts..."
-              className="w-full p-4 border border-slate-300 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-900 text-slate-900 dark:text-white placeholder-slate-500 dark:placeholder-slate-400"
-              rows={4}
-            />
-            <button
-              type="submit"
-              className="mt-3 px-6 py-2 bg-blue-600 text-white font-bold rounded hover:bg-blue-700 transition"
-            >
-              Post Comment
-            </button>
-          </form>
 
           <div className="space-y-4">
             <div className="p-4 bg-slate-100 dark:bg-slate-900 rounded">

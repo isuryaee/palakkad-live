@@ -1,14 +1,11 @@
-'use client'
-
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ArticleCard from '@/components/ArticleCard'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
-import { TrendingUp, Calendar, MapPin } from 'lucide-react'
+import { Calendar, MapPin } from 'lucide-react'
 
-// Mock data - will be replaced with real data from API
+// Static mock data - dates are fixed strings to prevent hydration mismatch
 const MOCK_ARTICLES = [
   {
     id: 1,
@@ -18,7 +15,7 @@ const MOCK_ARTICLES = [
     image: 'https://images.unsplash.com/photo-1575505586569-646b2ca898fc?w=600&h=400&fit=crop',
     category: 'Weather',
     categorySlug: 'weather',
-    publishedAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
+    publishedAt: '2 hours ago',
     isBreaking: false,
   },
   {
@@ -29,7 +26,7 @@ const MOCK_ARTICLES = [
     image: 'https://images.unsplash.com/photo-1427504494785-cdfa056f496d?w=600&h=400&fit=crop',
     category: 'Education',
     categorySlug: 'education',
-    publishedAt: new Date(Date.now() - 4 * 60 * 60 * 1000),
+    publishedAt: '4 hours ago',
     isBreaking: false,
   },
   {
@@ -40,7 +37,7 @@ const MOCK_ARTICLES = [
     image: 'https://images.unsplash.com/photo-1581578731548-c64695c952952?w=600&h=400&fit=crop',
     category: 'Politics',
     categorySlug: 'politics',
-    publishedAt: new Date(Date.now() - 6 * 60 * 60 * 1000),
+    publishedAt: '6 hours ago',
     isBreaking: false,
   },
   {
@@ -51,7 +48,7 @@ const MOCK_ARTICLES = [
     image: 'https://images.unsplash.com/photo-1578301978162-7eae4d755744?w=600&h=400&fit=crop',
     category: 'Entertainment',
     categorySlug: 'entertainment',
-    publishedAt: new Date(Date.now() - 8 * 60 * 60 * 1000),
+    publishedAt: '8 hours ago',
     isBreaking: false,
   },
 ]
@@ -75,8 +72,8 @@ const LOCATIONS = [
 ]
 
 export default function HomePage() {
-  const [heroArticle] = useState(MOCK_ARTICLES[0])
-  const [latestArticles] = useState(MOCK_ARTICLES.slice(1))
+  const heroArticle = MOCK_ARTICLES[0]
+  const latestArticles = MOCK_ARTICLES.slice(1)
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
@@ -100,7 +97,7 @@ export default function HomePage() {
                   <span className="text-sm font-medium text-slate-300">{heroArticle.category}</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-black leading-tight mb-2 text-balance">{heroArticle.title}</h2>
-                <p className="text-sm text-slate-300">{new Date(heroArticle.publishedAt).toLocaleDateString()}</p>
+                <p className="text-sm text-slate-300">{heroArticle.publishedAt}</p>
               </div>
             </article>
           </Link>

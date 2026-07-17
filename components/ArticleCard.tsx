@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { formatDistanceToNow } from 'date-fns'
 
 interface ArticleCardProps {
   slug: string
@@ -9,7 +8,7 @@ interface ArticleCardProps {
   image?: string
   category: string
   categorySlug: string
-  publishedAt: Date
+  publishedAt: string
   isBreaking?: boolean
   layout?: 'vertical' | 'horizontal'
 }
@@ -25,7 +24,6 @@ export default function ArticleCard({
   isBreaking,
   layout = 'vertical',
 }: ArticleCardProps) {
-  const timeAgo = formatDistanceToNow(new Date(publishedAt), { addSuffix: true })
 
   if (layout === 'horizontal') {
     return (
@@ -53,7 +51,7 @@ export default function ArticleCard({
               {isBreaking && <span className="px-2 py-1 text-xs font-bold bg-red-600 text-white rounded">BREAKING</span>}
             </div>
             <h3 className="font-bold text-sm leading-snug line-clamp-3 text-slate-900 dark:text-white mb-1">{title}</h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400">{timeAgo}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{publishedAt}</p>
           </div>
         </article>
       </Link>
@@ -86,7 +84,7 @@ export default function ArticleCard({
           </div>
           <h3 className="font-bold text-base leading-snug line-clamp-2 text-slate-900 dark:text-white mb-2">{title}</h3>
           {excerpt && <p className="text-sm text-slate-600 dark:text-slate-400 line-clamp-2 mb-3">{excerpt}</p>}
-          <p className="text-xs text-slate-500 dark:text-slate-400">{timeAgo}</p>
+          <p className="text-xs text-slate-500 dark:text-slate-400">{publishedAt}</p>
         </div>
       </article>
     </Link>

@@ -1,5 +1,3 @@
-'use client'
-
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ArticleCard from '@/components/ArticleCard'
@@ -22,7 +20,7 @@ const MOCK_ARTICLES = [
     image: 'https://images.unsplash.com/photo-1575505586569-646b2ca898fc?w=600&h=400&fit=crop',
     category: 'Weather',
     categorySlug: 'weather',
-    publishedAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
+    publishedAt: '2 hours ago',
     isBreaking: false,
   },
   {
@@ -33,7 +31,7 @@ const MOCK_ARTICLES = [
     image: 'https://images.unsplash.com/photo-1507842217343-583f20270319?w=600&h=400&fit=crop',
     category: 'Education',
     categorySlug: 'education',
-    publishedAt: new Date(Date.now() - 4 * 60 * 60 * 1000),
+    publishedAt: '4 hours ago',
     isBreaking: false,
   },
   {
@@ -44,7 +42,7 @@ const MOCK_ARTICLES = [
     image: 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?w=600&h=400&fit=crop',
     category: 'Transport',
     categorySlug: 'transport',
-    publishedAt: new Date(Date.now() - 6 * 60 * 60 * 1000),
+    publishedAt: '6 hours ago',
     isBreaking: false,
   },
 ]
