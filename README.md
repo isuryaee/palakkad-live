@@ -1,9 +1,12 @@
-# LivePalakkad News Platform
+# LivePalakkad - Hyperlocal News Platform
 
-A full-stack, bilingual hyperlocal news website for Palakkad district, Kerala. Built with Next.js 16, PostgreSQL, and Prisma.
+**Palakkad First** - A professional, production-ready hyperlocal news website for Palakkad district, Kerala.
 
-- **Website**: livepalakkad.com
-- **Brand Email**: mailstudiocity@gmail.com
+![LivePalakkad](public/logo/livepalakkad-icon.png)
+
+- **Public Site**: http://localhost:3000
+- **Admin Panel**: http://localhost:3000/desk
+- **Email**: mailstudiocity@gmail.com
 - **Phone**: 90745 00360
 - **Admin Email**: srr6vv@gmail.com
 
@@ -11,47 +14,88 @@ A full-stack, bilingual hyperlocal news website for Palakkad district, Kerala. B
 
 ## Tech Stack
 
-- **Frontend**: Next.js 16 (App Router), React 19, Tailwind CSS 4
+- **Frontend**: Next.js 16 (App Router), React 19, Tailwind CSS v4
 - **Backend**: Node.js (Next.js API routes)
-- **Database**: PostgreSQL with Prisma ORM
-- **Auth**: NextAuth.js (admin/staff only)
-- **Web Server**: Nginx (reverse proxy)
-- **Process Manager**: PM2
-- **File Storage**: Local `/uploads` folder (upgradeable to S3/Cloudinary)
+- **Database**: SQLite (dev) / PostgreSQL (production)
+- **ORM**: Prisma (25+ data models)
+- **Auth**: NextAuth.js with bcryptjs
+- **Icons**: Lucide React
+- **Utilities**: date-fns
+- **Styling**: Tailwind CSS v4 with dark mode
+- **Deployment**: Vercel, VPS, or self-hosted
+
+---
+
+## Quick Start (5 Minutes)
+
+See [START_HERE.md](START_HERE.md) for step-by-step setup.
+
+```bash
+# 1. Install dependencies
+pnpm install
+
+# 2. Copy environment file
+cp .env.example .env.local
+
+# 3. Start dev server
+pnpm dev
+
+# Visit http://localhost:3000
+```
+
+**Admin Access:**
+- Email: `srr6vv@gmail.com`
+- Password: Check `.env.local` for `ADMIN_PASSWORD`
+- URL: http://localhost:3000/desk
 
 ---
 
 ## Project Structure
 
 ```
-livepalakkad/
-├── app/
-│   ├── api/                    # API routes
-│   │   └── auth/[...nextauth]/ # NextAuth handler
-│   ├── auth/                   # Auth pages (signin, error)
-│   ├── desk/                   # Admin dashboard (protected)
-│   ├── layout.tsx              # Root layout
-│   ├── page.tsx                # Homepage
-│   └── globals.css             # Global styles
-├── components/                 # Reusable React components
-│   └── ui/                     # shadcn/ui components
-├── lib/
-│   ├── auth.ts                 # NextAuth configuration
-│   ├── db.ts                   # Prisma client singleton
-│   └── permissions.ts          # Permission/role helpers
-├── prisma/
-│   ├── schema.prisma           # Database schema
-│   ├── seed.ts                 # Database seed script
-│   └── migrations/             # Database migrations
-├── public/
-│   ├── logo/                   # Logo files (favicon, OG image)
-│   └── uploads/                # User-uploaded media
-├── .env.example                # Environment variables template
-├── nginx.conf                  # Nginx reverse proxy config
-├── ecosystem.config.js         # PM2 process manager config
+LivePalakkad/
+├── app/                        # Next.js App Router pages
+│   ├── page.tsx               # Homepage
+│   ├── layout.tsx             # Root layout with metadata
+│   ├── articles/[slug]/       # Article detail pages
+│   ├── category/[slug]/       # Category pages
+│   ├── location/[slug]/       # Location pages
+│   ├── auth/signin/           # Sign-in page
+│   ├── desk/                  # Admin panel (protected)
+│   │   ├── page.tsx          # Admin dashboard
+│   │   └── articles/page.tsx  # Article management
+│   ├── api/auth/[...nextauth]/ # NextAuth handler
+│   └── globals.css            # Global styles
+│
+├── components/                # Reusable components
+│   ├── Header.tsx            # Navigation header
+│   ├── Footer.tsx            # Site footer
+│   └── ArticleCard.tsx       # Article card (2 layouts)
+│
+├── lib/                       # Utilities & config
+│   ├── auth.ts               # NextAuth setup
+│   ├── db.ts                 # Prisma client
+│   └── permissions.ts        # RBAC helpers
+│
+├── prisma/                   # Database
+│   ├── schema.prisma         # Data models (560+ lines)
+│   ├── seed.mjs              # Sample data
+│   └── migrations/           # DB migrations
+│
+├── public/                   # Static files
+│   ├── logo/
+│   │   ├── livepalakkad-icon.png
+│   │   └── livepalakkad-branding.jpg
+│   └── images/
+│
+├── START_HERE.md             # 5-minute quick start
+├── BUILD_COMPLETE.md         # Full build summary
+├── .env.example              # Environment template
+├── next.config.mjs           # Next.js config
+├── tailwind.config.ts        # Tailwind config
 ├── package.json
 ├── tsconfig.json
-└── README.md
+└── README.md                 # This file
 ```
 
 ---
