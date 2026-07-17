@@ -21,9 +21,11 @@ const RECENT_ARTICLES = [
 
 const MENU_ITEMS = [
   { label: 'Articles', href: '/desk/articles', icon: FileText },
+  { label: 'Categories', href: '/desk/categories', icon: FileText },
   { label: 'Comments', href: '/desk/comments', icon: MessageSquare },
   { label: 'Users & Roles', href: '/desk/users', icon: Users },
   { label: 'Analytics', href: '/desk/analytics', icon: TrendingUp },
+  { label: 'Settings', href: '/desk/settings', icon: TrendingUp },
 ]
 
 export default function AdminDashboard() {
