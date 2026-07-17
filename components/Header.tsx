@@ -2,20 +2,18 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Bell, Search, Moon, Sun } from 'lucide-react'
-import { useState } from 'react'
+import { Bell, Search } from 'lucide-react'
 
 const CATEGORIES = [
-  { name: 'Breaking', slug: 'breaking-news', icon: '🔴' },
-  { name: 'Politics', slug: 'politics', icon: '🏛' },
-  { name: 'Crime', slug: 'crime', icon: '🚔' },
-  { name: 'Weather', slug: 'weather', icon: '🌧' },
-  { name: 'Sports', slug: 'sports', icon: '⚽' },
-  { name: 'Education', slug: 'education', icon: '🎓' },
+  { name: 'Breaking', slug: 'breaking-news' },
+  { name: 'Politics', slug: 'politics' },
+  { name: 'Crime', slug: 'crime' },
+  { name: 'Weather', slug: 'weather' },
+  { name: 'Sports', slug: 'sports' },
+  { name: 'Education', slug: 'education' },
 ]
 
 export default function Header() {
-  const [showSearch, setShowSearch] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-blue-950 dark:to-slate-950 border-b border-blue-800/30 shadow-lg">
