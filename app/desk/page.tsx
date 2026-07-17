@@ -1,7 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { BarChart3, FileText, MessageSquare, Eye, TrendingUp, Users } from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
+import { BarChart3, FileText, MessageSquare, Eye, TrendingUp, Users, LogOut } from 'lucide-react'
 
 const STATS = [
   { label: 'Total Articles', value: '247', icon: FileText, trend: '+12 this month' },
@@ -24,6 +27,34 @@ const MENU_ITEMS = [
 ]
 
 export default function AdminDashboard() {
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin')
+    }
+  }, [status, router])
+
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-slate-600 dark:text-slate-400">Loading admin dashboard...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!session) {
+    return null
+  }
+
+  const handleSignOut = async () => {
+    await signOut({ redirect: true, callbackUrl: '/' })
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950">
       {/* Header */}
@@ -34,7 +65,11 @@ export default function AdminDashboard() {
               <h1 className="text-3xl font-black">Admin Dashboard</h1>
               <p className="text-sm text-slate-500 dark:text-slate-400">Welcome to LivePalakkad Staff Console</p>
             </div>
-            <button className="px-6 py-2 bg-slate-200 dark:bg-slate-800 rounded hover:bg-slate-300 dark:hover:bg-slate-700 transition">
+            <button
+              onClick={handleSignOut}
+              className="flex items-center gap-2 px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition font-medium"
+            >
+              <LogOut size={18} />
               Sign Out
             </button>
           </div>
