@@ -1,17 +1,11 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { z } from "zod";
-
-const credentialsSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
 
 // Demo credentials for testing
 const DEMO_USER = {
   id: "1",
   email: "admin@livepalakkad.com",
-  password: "admin123", // hashed in production
+  password: "admin123",
   name: "Admin",
   image: null,
 };
@@ -23,14 +17,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
-        const parsed = credentialsSchema.safeParse(credentials);
-        if (!parsed.success) return null;
+      async authorize(credentials: any) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
 
         // Demo auth - in production, use database
         if (
-          parsed.data.email === DEMO_USER.email &&
-          parsed.data.password === DEMO_USER.password
+          credentials.email === DEMO_USER.email &&
+          credentials.password === DEMO_USER.password
         ) {
           return {
             id: DEMO_USER.id,
