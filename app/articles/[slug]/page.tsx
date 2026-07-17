@@ -1,3 +1,5 @@
+'use client'
+
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
@@ -37,6 +39,22 @@ const RELATED_ARTICLES = [
 ]
 
 export default function ArticlePage() {
+  const handleShareWhatsApp = () => {
+    const text = `Check out this article: ${ARTICLE.title} - LivePalakkad`
+    const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`
+    window.open(url, '_blank')
+  }
+
+  const handleShareFacebook = () => {
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`
+    window.open(url, '_blank')
+  }
+
+  const handleCopyLink = () => {
+    navigator.clipboard.writeText(window.location.href)
+    alert('Link copied to clipboard!')
+  }
+
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950">
       <Header />
@@ -103,25 +121,25 @@ export default function ArticlePage() {
           {/* Sidebar */}
           <aside>
             {/* Share */}
-            <div className="bg-slate-100 dark:bg-slate-900 p-6 rounded-lg mb-8">
-              <h3 className="font-bold mb-4 flex items-center gap-2">
-                <Share2 size={18} /> Share This
+            <div className="bg-gradient-to-br from-blue-50 to-slate-50 dark:from-slate-900 dark:to-slate-800 p-6 rounded-lg mb-8 border border-blue-200 dark:border-slate-700">
+              <h3 className="font-bold mb-4 flex items-center gap-2 text-slate-900 dark:text-white">
+                <Share2 size={18} className="text-blue-600" /> Share This Article
               </h3>
               <div className="space-y-2">
                 <button
-                  onClick={shareOnWhatsApp}
+                  onClick={handleShareWhatsApp}
                   className="w-full p-3 bg-green-500 text-white text-sm font-bold rounded hover:bg-green-600 transition"
                 >
-                  WhatsApp
+                  Share on WhatsApp
                 </button>
                 <button
-                  onClick={shareOnFacebook}
+                  onClick={handleShareFacebook}
                   className="w-full p-3 bg-blue-600 text-white text-sm font-bold rounded hover:bg-blue-700 transition"
                 >
-                  Facebook
+                  Share on Facebook
                 </button>
                 <button
-                  onClick={copyToClipboard}
+                  onClick={handleCopyLink}
                   className="w-full p-3 bg-slate-300 dark:bg-slate-700 text-slate-900 dark:text-white text-sm font-bold rounded hover:bg-slate-400 dark:hover:bg-slate-600 transition"
                 >
                   Copy Link
