@@ -1,24 +1,18 @@
 'use client'
 
-import { useState, useEffect } from 'react'
 import Header from './Header'
 import SettingsToggle from './SettingsToggle'
+import { Suspense } from 'react'
 
 export default function HeaderWithSettings() {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
   return (
-    <>
-      {mounted && (
-        <div className="absolute top-4 right-20 z-50">
+    <div className="relative">
+      <div className="absolute top-3 right-16 md:right-24 z-50">
+        <Suspense fallback={<div className="w-24 h-10" />}>
           <SettingsToggle />
-        </div>
-      )}
+        </Suspense>
+      </div>
       <Header />
-    </>
+    </div>
   )
 }

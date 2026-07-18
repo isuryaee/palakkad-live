@@ -13,7 +13,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<Language>('ml')
-  const [mounted, setMounted] = useState(false)
+  const [isHydrated, setIsHydrated] = useState(false)
 
   useEffect(() => {
     // Get language from localStorage
@@ -21,16 +21,14 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     if (savedLanguage) {
       setLanguageState(savedLanguage)
     }
-    setMounted(true)
+    setIsHydrated(true)
   }, [])
 
   const setLanguage = (lang: Language) => {
     setLanguageState(lang)
-    localStorage.setItem('language', lang)
-  }
-
-  if (!mounted) {
-    return <>{children}</>
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('language', lang)
+    }
   }
 
   return (
