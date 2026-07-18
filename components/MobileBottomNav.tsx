@@ -9,10 +9,10 @@ export function MobileBottomNav() {
 
   const navItems = [
     { label: 'Home', href: '/', icon: Home },
-    { label: 'Latest', href: '/articles', icon: Zap },
-    { label: 'Trending', href: '/category', icon: TrendingUp },
+    { label: 'Latest', href: '/latest', icon: Zap },
+    { label: 'Trending', href: '/trending', icon: TrendingUp },
     { label: 'Search', href: '/search', icon: Search },
-    { label: 'Menu', href: '/explore', icon: Menu },
+    { label: 'Menu', href: '/', icon: Menu },
   ];
 
   return (

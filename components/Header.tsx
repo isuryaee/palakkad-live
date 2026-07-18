@@ -2,6 +2,13 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
+import { Suspense } from 'react'
+
+const SettingsToggle = dynamic(() => import('./SettingsToggle'), {
+  ssr: false,
+  loading: () => <div className="w-20 h-10" />,
+})
 
 const CATEGORIES = [
   { name: 'Breaking', slug: 'breaking-news' },
@@ -51,7 +58,10 @@ export default function Header() {
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <Suspense fallback={<div className="w-20 h-10" />}>
+              <SettingsToggle />
+            </Suspense>
             <Link
               href="/desk"
               className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold rounded-lg hover:from-blue-700 hover:to-blue-600 transition shadow-lg hover:shadow-blue-500/50"
