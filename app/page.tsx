@@ -1,4 +1,4 @@
-import HeaderWithSettings from '@/components/HeaderWithSettings'
+import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ArticleCard from '@/components/ArticleCard'
 import { BreakingTicker } from '@/components/BreakingTicker'
@@ -94,7 +94,7 @@ const LOCATIONS = [
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-      <HeaderWithSettings />
+      <Header />
       <BreakingTicker />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:pb-0 pb-20">

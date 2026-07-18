@@ -1,4 +1,4 @@
-import HeaderWithSettings from '@/components/HeaderWithSettings'
+import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ArticleCard from '@/components/ArticleCard'
 import { MobileBottomNav } from '@/components/MobileBottomNav'
@@ -60,7 +60,7 @@ export default function TrendingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-      <HeaderWithSettings />
+      <Header />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:pb-0 pb-20">
         <div className="mb-8 flex items-center gap-3">

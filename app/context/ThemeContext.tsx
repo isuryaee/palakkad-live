@@ -10,20 +10,28 @@ interface ThemeContextType {
   toggleTheme: () => void
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
+const defaultValue: ThemeContextType = {
+  theme: 'dark',
+  setTheme: () => {},
+  toggleTheme: () => {},
+}
+
+const ThemeContext = createContext<ThemeContextType>(defaultValue)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('dark')
 
   useEffect(() => {
-    // Get theme from localStorage or system preference
-    const savedTheme = localStorage.getItem('theme') as Theme
-    if (savedTheme) {
-      setThemeState(savedTheme)
-      updateTheme(savedTheme)
-    } else {
-      // Default to dark
-      setThemeState('dark')
+    try {
+      const saved = localStorage.getItem('theme') as Theme | null
+      if (saved === 'light' || saved === 'dark') {
+        setThemeState(saved)
+        updateTheme(saved)
+      } else {
+        updateTheme('dark')
+      }
+    } catch {
+      // Silently handle storage access errors
       updateTheme('dark')
     }
   }, [])
@@ -41,8 +49,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme)
-    if (typeof window !== 'undefined') {
+    try {
       localStorage.setItem('theme', newTheme)
+    } catch {
+      // Silently handle storage write errors
     }
     updateTheme(newTheme)
   }
@@ -59,9 +69,5 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useTheme() {
-  const context = useContext(ThemeContext)
-  if (context === undefined) {
-    throw new Error('useTheme must be used within ThemeProvider')
-  }
-  return context
+  return useContext(ThemeContext)
 }
