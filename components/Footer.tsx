@@ -79,7 +79,6 @@ export default function Footer() {
 
         <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
           <p>&copy; {currentYear} LivePalakkad Media. All rights reserved.</p>
-          <p>Designed & Developed in Palakkad</p>
         </div>
       </div>
     </footer>
