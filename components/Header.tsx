@@ -5,6 +5,8 @@ import Image from 'next/image'
 import SettingsToggle from './SettingsToggle'
 import { useLanguage } from '@/app/context/LanguageContext'
 import { t } from '@/app/lib/translations'
+import { Menu } from 'lucide-react'
+import { useState } from 'react'
 
 const CATEGORY_SLUGS = [
   { enName: 'breaking', key: 'breaking' },
@@ -18,12 +20,22 @@ const CATEGORY_SLUGS = [
 export default function Header() {
   const { language } = useLanguage()
   const lang = language as 'en' | 'ml'
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-blue-950 dark:to-slate-950 border-b border-blue-800/30 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Navigation */}
         <div className="flex items-center justify-between h-20">
+          {/* Hamburger Menu - Mobile */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 rounded-lg text-blue-200 hover:bg-white/10 transition"
+            aria-label="Toggle menu"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
             <div className="relative">
@@ -77,6 +89,28 @@ export default function Header() {
             <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" /> {t('live' as any, lang)}
           </Link>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        {mobileMenuOpen && (
+          <div className="md:hidden border-t border-blue-800/20 bg-blue-900/50 backdrop-blur-sm">
+            <nav className="flex flex-col gap-1 p-4">
+              {CATEGORY_SLUGS.map((cat) => (
+                <Link
+                  key={cat.enName}
+                  href={`/category/${cat.enName.toLowerCase().replace(' & ', '-')}`}
+                  className="px-3 py-2 text-sm font-medium text-blue-200 hover:bg-white/10 rounded-lg transition"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {t(cat.key as any, lang)}
+                </Link>
+              ))}
+              <Link href="/latest" className="px-3 py-2 text-sm font-medium text-blue-200 hover:bg-white/10 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('latest' as any, lang)}</Link>
+              <Link href="/explore" className="px-3 py-2 text-sm font-medium text-blue-200 hover:bg-white/10 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('explore' as any, lang)}</Link>
+              <Link href="/photos" className="px-3 py-2 text-sm font-medium text-blue-200 hover:bg-white/10 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('photos' as any, lang)}</Link>
+              <Link href="/videos" className="px-3 py-2 text-sm font-medium text-blue-200 hover:bg-white/10 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('videos' as any, lang)}</Link>
+            </nav>
+          </div>
+        )}
       </div>
     </header>
   )

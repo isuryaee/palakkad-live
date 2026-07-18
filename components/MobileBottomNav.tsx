@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Zap, TrendingUp, Search, Bookmark } from 'lucide-react';
+import { Home, Zap, TrendingUp, Search } from 'lucide-react';
 import { useLanguage } from '@/app/context/LanguageContext';
 import { t } from '@/app/lib/translations';
 
@@ -16,7 +16,6 @@ export function MobileBottomNav() {
     { labelKey: 'latest', href: '/latest', icon: Zap },
     { labelKey: 'trending', href: '/trending', icon: TrendingUp },
     { labelKey: 'search', href: '/search', icon: Search },
-    { labelKey: 'categories_btn', href: '/explore', icon: Bookmark },
   ];
 
   return (
