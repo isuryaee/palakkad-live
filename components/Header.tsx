@@ -99,9 +99,13 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Mobile Menu Dropdown */}
-        {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-slate-800 backdrop-blur-sm">
+        {/* Mobile Menu Dropdown - Optimized with CSS transitions */}
+        <div className={`md:hidden overflow-hidden transition-all duration-200 ease-in-out ${
+          mobileMenuOpen 
+            ? 'max-h-96 opacity-100 visible' 
+            : 'max-h-0 opacity-0 invisible'
+        }`}>
+          <div className="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-slate-800 backdrop-blur-sm">
             <nav className="flex flex-col gap-1 p-4">
               {CATEGORY_SLUGS.map((cat) => (
                 <Link
@@ -119,7 +123,7 @@ export default function Header() {
               <Link href="/videos" className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('videos' as any, lang)}</Link>
             </nav>
           </div>
-        )}
+        </div>
       </div>
     </header>
   )
