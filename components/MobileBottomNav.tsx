@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Zap, TrendingUp, Search, Menu } from 'lucide-react';
+import { Home, Zap, TrendingUp, Search } from 'lucide-react';
 
 export function MobileBottomNav() {
   const pathname = usePathname();
@@ -12,7 +12,6 @@ export function MobileBottomNav() {
     { label: 'Latest', href: '/latest', icon: Zap },
     { label: 'Trending', href: '/trending', icon: TrendingUp },
     { label: 'Search', href: '/search', icon: Search },
-    { label: 'Menu', href: '/', icon: Menu },
   ];
 
   return (

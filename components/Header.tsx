@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useState } from 'react'
+import { Menu, X } from 'lucide-react'
 import SettingsToggle from './SettingsToggle'
 
 const CATEGORIES = [
@@ -14,6 +16,7 @@ const CATEGORIES = [
 ]
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-50">
@@ -27,8 +30,17 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Navigation */}
         <div className="flex items-center justify-between h-20">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="lg:hidden p-2 text-foreground hover:bg-muted rounded-lg transition"
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group ml-0 lg:ml-auto">
             <div className="relative">
               <Image
                 src="/logo/livepalakkad-icon.png"
@@ -69,6 +81,57 @@ export default function Header() {
             </Link>
           </div>
         </div>
+
+        {/* Mobile Menu Drawer */}
+        {menuOpen && (
+          <div className="lg:hidden bg-card border-b border-border py-4 space-y-2">
+            {CATEGORIES.map((cat) => (
+              <Link
+                key={cat.slug}
+                href={`/category/${cat.slug}`}
+                onClick={() => setMenuOpen(false)}
+                className="block px-4 py-2 text-sm font-medium text-foreground/80 hover:bg-muted rounded-lg transition"
+              >
+                {cat.name}
+              </Link>
+            ))}
+            <Link
+              href="/latest"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition"
+            >
+              Latest
+            </Link>
+            <Link
+              href="/explore"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition"
+            >
+              Explore
+            </Link>
+            <Link
+              href="/photos"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition"
+            >
+              Photos
+            </Link>
+            <Link
+              href="/videos"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition"
+            >
+              Videos
+            </Link>
+            <Link
+              href="/live"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition flex items-center gap-1"
+            >
+              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" /> Live
+            </Link>
+          </div>
+        )}
 
         {/* Secondary Navigation */}
         <div className="hidden lg:flex items-center gap-6 pb-4 text-sm border-t border-border pt-4">
