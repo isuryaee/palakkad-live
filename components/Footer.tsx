@@ -9,9 +9,8 @@ const FacebookIcon = () => (
 )
 
 const XIcon = () => (
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-    <line x1="18" y1="6" x2="6" y2="18" strokeLinecap="round" strokeLinejoin="round" />
-    <line x1="6" y1="6" x2="18" y2="18" strokeLinecap="round" strokeLinejoin="round" />
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.6l-5.195-6.791-5.966 6.791h-3.31l7.73-8.835L.424 2.25h6.7l4.713 6.231 5.405-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117Z" />
   </svg>
 )
 
