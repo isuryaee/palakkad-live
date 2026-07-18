@@ -98,20 +98,46 @@ export default function HomePage() {
       <BreakingTicker />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:pb-0 pb-20">
-        {/* Breaking News Alert - Original */}
-        <div className="mb-8 p-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg flex items-center gap-4 shadow-lg">
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <div className="w-3 h-3 bg-red-300 rounded-full animate-pulse" />
-            <span className="font-black text-sm uppercase">Breaking</span>
+        {/* Breaking News Alert - Enhanced for Mobile */}
+        <Link href={`/articles/${BREAKING_NEWS.slug}`} className="mb-8 group block">
+          <div className="relative overflow-hidden rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300">
+            {/* Background with animated gradient */}
+            <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-700 to-red-800 opacity-95" />
+            <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            
+            {/* Content Container */}
+            <div className="relative p-6 md:p-8 min-h-[220px] flex flex-col justify-between">
+              {/* Top Badge */}
+              <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center gap-2 px-3 py-1 bg-red-500/40 backdrop-blur-sm rounded-full">
+                  <div className="w-2.5 h-2.5 bg-red-200 rounded-full animate-pulse" />
+                  <span className="font-black text-xs uppercase tracking-wider text-white">Breaking News</span>
+                </div>
+              </div>
+
+              {/* Main Content */}
+              <div className="flex-1">
+                <h2 className="font-black text-2xl md:text-4xl leading-tight mb-4 text-white group-hover:translate-x-1 transition-transform duration-300">
+                  {BREAKING_NEWS.title}
+                </h2>
+                <p className="text-red-50/90 text-base md:text-lg leading-relaxed font-medium">
+                  {BREAKING_NEWS.excerpt}
+                </p>
+              </div>
+
+              {/* Bottom Action */}
+              <div className="flex items-center gap-3 mt-6 pt-4 border-t border-white/20">
+                <button className="px-6 py-2 bg-white text-red-600 font-black rounded-lg hover:bg-red-50 transition-colors duration-200 text-sm uppercase tracking-wide">
+                  Read Full Story
+                </button>
+                <span className="text-white/70 text-xs font-semibold">→</span>
+              </div>
+            </div>
+
+            {/* Decorative corner accent */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-red-500/10 rounded-full blur-3xl -mr-16 -mt-16" />
           </div>
-          <div className="flex-1">
-            <p className="font-black text-lg">{BREAKING_NEWS.title}</p>
-            <p className="text-red-100 text-sm mt-1">{BREAKING_NEWS.excerpt}</p>
-          </div>
-          <Link href={`/articles/${BREAKING_NEWS.slug}`} className="px-4 py-2 bg-white text-red-600 font-bold rounded hover:bg-red-50 transition flex-shrink-0">
-            Read
-          </Link>
-        </div>
+        </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12">
           {/* Main Content */}
