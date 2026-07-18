@@ -251,24 +251,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Newsletter Signup */}
-            <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-xl p-6 shadow-lg text-white">
-              <h4 className="font-black text-lg mb-2">Newsletter</h4>
-              <p className="text-sm text-blue-100 mb-4">Get daily updates directly to your inbox</p>
-              <form className="space-y-3">
-                <input
-                  type="email"
-                  placeholder="Your email"
-                  className="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white placeholder-blue-100 text-sm focus:outline-none focus:border-white/50 transition"
-                />
-                <button
-                  type="submit"
-                  className="w-full px-4 py-2 bg-white text-blue-600 font-black rounded-lg hover:bg-blue-50 transition"
-                >
-                  Subscribe
-                </button>
-              </form>
-            </div>
+
           </div>
         </div>
 

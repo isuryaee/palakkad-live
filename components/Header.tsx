@@ -16,7 +16,14 @@ const CATEGORIES = [
 export default function Header() {
 
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-blue-950 dark:to-slate-950 border-b border-blue-800/30 shadow-lg">
+    <header className="sticky top-0 z-50">
+      {/* Domain Bar */}
+      <div className="bg-gradient-to-r from-blue-700 to-blue-600 text-white text-center py-1.5 text-xs sm:text-sm font-bold tracking-wide">
+        LIVEPALAKKAD.COM
+      </div>
+      
+      {/* Main Header */}
+      <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-blue-950 dark:to-slate-950 border-b border-blue-800/30 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Navigation */}
         <div className="flex items-center justify-between h-20">
@@ -73,6 +80,7 @@ export default function Header() {
             <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" /> Live
           </Link>
         </div>
+      </div>
       </div>
     </header>
   )
