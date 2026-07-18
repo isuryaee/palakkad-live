@@ -1,13 +1,12 @@
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ArticleCard from '@/components/ArticleCard'
-import { BreakingTicker } from '@/components/BreakingTicker'
 import { WeatherWidget } from '@/components/WeatherWidget'
 import { PollWidget } from '@/components/PollWidget'
 import { MobileBottomNav } from '@/components/MobileBottomNav'
 import Link from 'next/link'
 import Image from 'next/image'
-import { AlertCircle, Zap, Camera, Video, TrendingUp, MapPin, Clock, Eye, Radio, Share2, Bookmark, Radio as RadioIcon } from 'lucide-react'
+import { AlertCircle, Zap, Camera, Video, TrendingUp, MapPin, Clock, Eye, Radio, Share2, Bookmark, Radio as RadioIcon, AlertTriangle, ChevronRight } from 'lucide-react'
 
 const BREAKING_NEWS = {
   id: 0,
@@ -95,23 +94,35 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
       <Header />
-      <BreakingTicker />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:pb-0 pb-20">
-        {/* Breaking News Alert - Original */}
-        <div className="mb-8 p-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg flex items-center gap-4 shadow-lg">
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <div className="w-3 h-3 bg-red-300 rounded-full animate-pulse" />
-            <span className="font-black text-sm uppercase">Breaking</span>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:pb-0 pb-20">
+        {/* Breaking News Alert - Compact Premium */}
+        <Link href={`/articles/${BREAKING_NEWS.slug}`} className="group mb-6 block">
+          <div className="relative overflow-hidden rounded-lg border border-red-200 dark:border-red-900/50 bg-gradient-to-r from-red-50 to-red-50/50 dark:from-red-950/30 dark:to-red-950/20 hover:border-red-300 dark:hover:border-red-800 transition-all duration-300 shadow-sm hover:shadow-md">
+            <div className="relative px-4 py-3 sm:px-5 sm:py-4 flex items-start gap-3">
+              {/* Icon */}
+              <div className="flex-shrink-0 pt-0.5">
+                <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
+              </div>
+
+              {/* Content */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="inline-block px-2 py-0.5 bg-red-600 text-white text-xs font-bold uppercase tracking-wider rounded">
+                    BREAKING
+                  </span>
+                </div>
+                <h3 className="text-sm sm:text-base font-bold text-foreground leading-snug line-clamp-2">{BREAKING_NEWS.title}</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1 line-clamp-2">{BREAKING_NEWS.excerpt}</p>
+              </div>
+
+              {/* Arrow */}
+              <div className="flex-shrink-0 text-red-600 group-hover:translate-x-1 transition-transform">
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              </div>
+            </div>
           </div>
-          <div className="flex-1">
-            <p className="font-black text-lg">{BREAKING_NEWS.title}</p>
-            <p className="text-red-100 text-sm mt-1">{BREAKING_NEWS.excerpt}</p>
-          </div>
-          <Link href={`/articles/${BREAKING_NEWS.slug}`} className="px-4 py-2 bg-white text-red-600 font-bold rounded hover:bg-red-50 transition flex-shrink-0">
-            Read
-          </Link>
-        </div>
+        </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12">
           {/* Main Content */}

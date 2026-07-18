@@ -11,7 +11,7 @@ interface ThemeContextType {
 }
 
 const defaultValue: ThemeContextType = {
-  theme: 'dark',
+  theme: 'light',
   setTheme: () => {},
   toggleTheme: () => {},
 }
@@ -19,7 +19,7 @@ const defaultValue: ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType>(defaultValue)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark')
+  const [theme, setThemeState] = useState<Theme>('light')
 
   useEffect(() => {
     try {
@@ -28,11 +28,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setThemeState(saved)
         updateTheme(saved)
       } else {
-        updateTheme('dark')
+        updateTheme('light')
       }
     } catch {
       // Silently handle storage access errors
-      updateTheme('dark')
+      updateTheme('light')
     }
   }, [])
 
@@ -41,8 +41,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       const html = document.documentElement
       if (newTheme === 'dark') {
         html.classList.add('dark')
+        html.classList.remove('light')
       } else {
         html.classList.remove('dark')
+        html.classList.add('light')
       }
     }
   }

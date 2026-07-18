@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import { useState } from 'react'
+import { Menu, X } from 'lucide-react'
 import SettingsToggle from './SettingsToggle'
 
 const CATEGORIES = [
@@ -14,21 +16,33 @@ const CATEGORIES = [
 ]
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-50">
       {/* Domain Bar */}
-      <div className="bg-gradient-to-r from-blue-700 to-blue-600 text-white text-center py-1.5 text-xs sm:text-sm font-bold tracking-wide">
+      <div className="bg-blue-600 text-white text-center py-1.5 text-xs sm:text-sm font-bold tracking-wide">
         LIVEPALAKKAD.COM
       </div>
       
       {/* Main Header */}
-      <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-blue-950 dark:to-slate-950 border-b border-blue-800/30 shadow-lg">
+      <div className="bg-card border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Navigation */}
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+          {/* Left Section: Menu Button & Logo */}
+          <div className="flex items-center gap-2">
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="lg:hidden p-2 text-foreground hover:bg-muted rounded-lg transition"
+              aria-label="Toggle menu"
+            >
+              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
             <div className="relative">
               <Image
                 src="/logo/livepalakkad-icon.png"
@@ -40,10 +54,11 @@ export default function Header() {
               <div className="absolute -inset-1 bg-blue-500/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition -z-10" />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-xl font-black bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">LivePalakkad</h1>
-              <p className="text-xs text-blue-300">Palakkad First</p>
+              <h1 className="text-xl font-black text-foreground">LivePalakkad</h1>
+              <p className="text-xs text-muted-foreground">Palakkad First</p>
             </div>
-          </Link>
+            </Link>
+          </div>
 
           {/* Desktop Categories */}
           <nav className="hidden lg:flex items-center gap-1">
@@ -51,7 +66,7 @@ export default function Header() {
               <Link
                 key={cat.slug}
                 href={`/category/${cat.slug}`}
-                className="px-3 py-2 text-sm font-medium text-blue-100 hover:bg-white/10 rounded-lg transition"
+                className="px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-muted rounded-lg transition"
               >
                 {cat.name}
               </Link>
@@ -63,20 +78,71 @@ export default function Header() {
             <SettingsToggle />
             <Link
               href="/desk"
-              className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold rounded-lg hover:from-blue-700 hover:to-blue-600 transition shadow-lg hover:shadow-blue-500/50"
+              className="hidden sm:flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition shadow-sm"
             >
               Admin
             </Link>
           </div>
         </div>
 
+        {/* Mobile Menu Drawer */}
+        {menuOpen && (
+          <div className="lg:hidden bg-card border-b border-border py-4 space-y-2">
+            {CATEGORIES.map((cat) => (
+              <Link
+                key={cat.slug}
+                href={`/category/${cat.slug}`}
+                onClick={() => setMenuOpen(false)}
+                className="block px-4 py-2 text-sm font-medium text-foreground/80 hover:bg-muted rounded-lg transition"
+              >
+                {cat.name}
+              </Link>
+            ))}
+            <Link
+              href="/latest"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition"
+            >
+              Latest
+            </Link>
+            <Link
+              href="/explore"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition"
+            >
+              Explore
+            </Link>
+            <Link
+              href="/photos"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition"
+            >
+              Photos
+            </Link>
+            <Link
+              href="/videos"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition"
+            >
+              Videos
+            </Link>
+            <Link
+              href="/live"
+              onClick={() => setMenuOpen(false)}
+              className="block px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition flex items-center gap-1"
+            >
+              <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" /> Live
+            </Link>
+          </div>
+        )}
+
         {/* Secondary Navigation */}
-        <div className="hidden lg:flex items-center gap-6 pb-4 text-sm border-t border-blue-800/20 pt-4">
-          <Link href="/latest" className="text-blue-200 hover:text-white font-medium transition">Latest</Link>
-          <Link href="/explore" className="text-blue-200 hover:text-white font-medium transition">Explore</Link>
-          <Link href="/photos" className="text-blue-200 hover:text-white font-medium transition">Photos</Link>
-          <Link href="/videos" className="text-blue-200 hover:text-white font-medium transition">Videos</Link>
-          <Link href="/live" className="text-blue-200 hover:text-white font-medium transition flex items-center gap-1">
+        <div className="hidden lg:flex items-center gap-6 pb-4 text-sm border-t border-border pt-4">
+          <Link href="/latest" className="text-muted-foreground hover:text-foreground font-medium transition">Latest</Link>
+          <Link href="/explore" className="text-muted-foreground hover:text-foreground font-medium transition">Explore</Link>
+          <Link href="/photos" className="text-muted-foreground hover:text-foreground font-medium transition">Photos</Link>
+          <Link href="/videos" className="text-muted-foreground hover:text-foreground font-medium transition">Videos</Link>
+          <Link href="/live" className="text-muted-foreground hover:text-foreground font-medium transition flex items-center gap-1">
             <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" /> Live
           </Link>
         </div>
