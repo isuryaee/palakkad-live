@@ -34,31 +34,34 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Navigation */}
         <div className="flex items-center justify-between h-20">
-          {/* Hamburger Menu - Mobile */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-            aria-label="Toggle menu"
-          >
-            <Menu className="w-6 h-6" />
-          </button>
+          {/* Left Side - Hamburger + Logo (Mobile) */}
+          <div className="flex items-center gap-2 md:gap-3">
+            {/* Hamburger Menu - Mobile */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              aria-label="Toggle menu"
+            >
+              <Menu className="w-6 h-6" />
+            </button>
 
-          {/* Logo & Branding */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
-            <div className="relative">
-              <Image
-                src="/logo/livepalakkad-icon.png"
-                alt="LivePalakkad"
-                width={44}
-                height={44}
-                className="w-11 h-11 group-hover:scale-110 transition"
-              />
-            </div>
-            <div className="hidden sm:block">
-              <h1 className="text-xl font-black text-gray-900 dark:text-white">LivePalakkad</h1>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Palakkad First</p>
-            </div>
-          </Link>
+            {/* Logo & Branding */}
+            <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+              <div className="relative">
+                <Image
+                  src="/logo/livepalakkad-icon.png"
+                  alt="LivePalakkad"
+                  width={44}
+                  height={44}
+                  className="w-11 h-11 group-hover:scale-110 transition"
+                />
+              </div>
+              <div className="hidden sm:block">
+                <h1 className="text-xl font-black text-gray-900 dark:text-white">LivePalakkad</h1>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Palakkad First</p>
+              </div>
+            </Link>
+          </div>
 
           {/* Desktop Categories */}
           <nav className="hidden lg:flex items-center gap-1">
