@@ -3,10 +3,9 @@
 import { useLanguage } from '@/app/context/LanguageContext'
 import { useTheme } from '@/app/context/ThemeContext'
 import { Globe, Moon, Sun } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 export default function SettingsToggle() {
-  const [mounted, setMounted] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
   
   const { language, setLanguage } = useLanguage()
