@@ -95,7 +95,7 @@ export default function HomePage() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
       <Header />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:pb-0 pb-20">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 md:pb-0 pb-20">
         {/* Breaking News Alert - Compact Premium */}
         <Link href={`/articles/${BREAKING_NEWS.slug}`} className="group mb-6 block">
           <div className="relative overflow-hidden rounded-lg border border-red-200 dark:border-red-900/50 bg-gradient-to-r from-red-50 to-red-50/50 dark:from-red-950/30 dark:to-red-950/20 hover:border-red-300 dark:hover:border-red-800 transition-all duration-300 shadow-sm hover:shadow-md">
