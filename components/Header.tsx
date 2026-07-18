@@ -30,17 +30,19 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Navigation */}
         <div className="flex items-center justify-between h-20">
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden p-2 text-foreground hover:bg-muted rounded-lg transition"
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Left Section: Menu Button & Logo */}
+          <div className="flex items-center gap-2">
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="lg:hidden p-2 text-foreground hover:bg-muted rounded-lg transition"
+              aria-label="Toggle menu"
+            >
+              {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
 
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group ml-0 lg:ml-auto">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
             <div className="relative">
               <Image
                 src="/logo/livepalakkad-icon.png"
@@ -55,7 +57,8 @@ export default function Header() {
               <h1 className="text-xl font-black text-foreground">LivePalakkad</h1>
               <p className="text-xs text-muted-foreground">Palakkad First</p>
             </div>
-          </Link>
+            </Link>
+          </div>
 
           {/* Desktop Categories */}
           <nav className="hidden lg:flex items-center gap-1">
