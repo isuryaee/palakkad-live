@@ -3,17 +3,21 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import SettingsToggle from './SettingsToggle'
+import { useLanguage } from '@/app/context/LanguageContext'
+import { t } from '@/app/lib/translations'
 
-const CATEGORIES = [
-  { name: 'Breaking', slug: 'breaking-news' },
-  { name: 'Politics', slug: 'politics' },
-  { name: 'Crime', slug: 'crime' },
-  { name: 'Weather', slug: 'weather' },
-  { name: 'Sports', slug: 'sports' },
-  { name: 'Education', slug: 'education' },
+const CATEGORY_SLUGS = [
+  { enName: 'breaking', key: 'breaking' },
+  { enName: 'Politics', key: 'politics' },
+  { enName: 'Crime & Accidents', key: 'crime' },
+  { enName: 'Weather', key: 'weather' },
+  { enName: 'Sports', key: 'sports' },
+  { enName: 'Education', key: 'education' },
 ]
 
 export default function Header() {
+  const { language } = useLanguage()
+  const lang = language as 'en' | 'ml'
 
   return (
     <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-blue-950 dark:to-slate-950 border-b border-blue-800/30 shadow-lg">
@@ -40,13 +44,13 @@ export default function Header() {
 
           {/* Desktop Categories */}
           <nav className="hidden lg:flex items-center gap-1">
-            {CATEGORIES.map((cat) => (
+            {CATEGORY_SLUGS.map((cat) => (
               <Link
-                key={cat.slug}
-                href={`/category/${cat.slug}`}
+                key={cat.enName}
+                href={`/category/${cat.enName.toLowerCase().replace(' & ', '-')}`}
                 className="px-3 py-2 text-sm font-medium text-blue-100 hover:bg-white/10 rounded-lg transition"
               >
-                {cat.name}
+                {t(cat.key as any, lang)}
               </Link>
             ))}
           </nav>
@@ -65,12 +69,12 @@ export default function Header() {
 
         {/* Secondary Navigation */}
         <div className="hidden lg:flex items-center gap-6 pb-4 text-sm border-t border-blue-800/20 pt-4">
-          <Link href="/latest" className="text-blue-200 hover:text-white font-medium transition">Latest</Link>
-          <Link href="/explore" className="text-blue-200 hover:text-white font-medium transition">Explore</Link>
-          <Link href="/photos" className="text-blue-200 hover:text-white font-medium transition">Photos</Link>
-          <Link href="/videos" className="text-blue-200 hover:text-white font-medium transition">Videos</Link>
+          <Link href="/latest" className="text-blue-200 hover:text-white font-medium transition">{t('latest' as any, lang)}</Link>
+          <Link href="/explore" className="text-blue-200 hover:text-white font-medium transition">{t('explore' as any, lang)}</Link>
+          <Link href="/photos" className="text-blue-200 hover:text-white font-medium transition">{t('photos' as any, lang)}</Link>
+          <Link href="/videos" className="text-blue-200 hover:text-white font-medium transition">{t('videos' as any, lang)}</Link>
           <Link href="/live" className="text-blue-200 hover:text-white font-medium transition flex items-center gap-1">
-            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" /> Live
+            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" /> {t('live' as any, lang)}
           </Link>
         </div>
       </div>

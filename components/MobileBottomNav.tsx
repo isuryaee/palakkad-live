@@ -2,17 +2,21 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, Zap, TrendingUp, Search, Menu } from 'lucide-react';
+import { Home, Zap, TrendingUp, Search, Bookmark } from 'lucide-react';
+import { useLanguage } from '@/app/context/LanguageContext';
+import { t } from '@/app/lib/translations';
 
 export function MobileBottomNav() {
   const pathname = usePathname();
+  const { language } = useLanguage();
+  const lang = language as 'en' | 'ml';
 
   const navItems = [
-    { label: 'Home', href: '/', icon: Home },
-    { label: 'Latest', href: '/latest', icon: Zap },
-    { label: 'Trending', href: '/trending', icon: TrendingUp },
-    { label: 'Search', href: '/search', icon: Search },
-    { label: 'Menu', href: '/', icon: Menu },
+    { labelKey: 'home', href: '/', icon: Home },
+    { labelKey: 'latest', href: '/latest', icon: Zap },
+    { labelKey: 'trending', href: '/trending', icon: TrendingUp },
+    { labelKey: 'search', href: '/search', icon: Search },
+    { labelKey: 'categories_btn', href: '/explore', icon: Bookmark },
   ];
 
   return (
@@ -22,7 +26,7 @@ export function MobileBottomNav() {
         const Icon = item.icon;
         return (
           <Link
-            key={item.label}
+            key={item.labelKey}
             href={item.href}
             className={`flex flex-col items-center justify-center w-full h-full space-y-1 transition-colors ${
               isActive
@@ -31,7 +35,7 @@ export function MobileBottomNav() {
             }`}
           >
             <Icon className={`w-5 h-5 ${isActive ? 'fill-current' : ''}`} />
-            <span className="text-[10px] font-sans font-medium">{item.label}</span>
+            <span className="text-[10px] font-sans font-medium">{t(item.labelKey as any, lang)}</span>
           </Link>
         );
       })}
