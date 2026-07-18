@@ -5,7 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Share2, MessageCircle, Calendar, MapPin, User, Clock, Eye, Link as LinkIcon } from 'lucide-react'
+import { Share2, MessageCircle, Calendar, MapPin, User, Clock, Eye, Link as LinkIcon, MessageSquare, AlertTriangle, Phone, Mail, MoreVertical, ThumbsUp } from 'lucide-react'
 
 // Mock article data - using static strings for dates to prevent hydration mismatch
 const ARTICLE = {
@@ -191,21 +191,21 @@ export default function ArticlePage() {
                   className="p-2 bg-green-500 hover:bg-green-600 text-white text-xs font-bold rounded transition flex items-center justify-center gap-1"
                   title="Share on WhatsApp"
                 >
-                  💬 WhatsApp
+                  <MessageSquare size={14} /> WhatsApp
                 </button>
                 <button
                   onClick={handleShareFacebook}
                   className="p-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded transition flex items-center justify-center gap-1"
                   title="Share on Facebook"
                 >
-                  f Facebook
+                  <Share2 size={14} /> Facebook
                 </button>
                 <button
                   onClick={handleShareTwitter}
                   className="p-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded transition flex items-center justify-center gap-1"
                   title="Share on Twitter"
                 >
-                  𝕏 Twitter
+                  <Share2 size={14} /> Twitter
                 </button>
                 <button
                   onClick={handleCopyLink}
@@ -300,9 +300,9 @@ export default function ArticlePage() {
                 </div>
                 <p className="text-sm text-slate-700 dark:text-slate-300 mb-3">{item.comment}</p>
                 <div className="flex items-center gap-4 text-xs">
-                  <button className="px-2 py-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 transition flex items-center gap-1 text-slate-600 dark:text-slate-400">
-                    👍 {item.likes}
-                  </button>
+                <button className="px-2 py-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 transition flex items-center gap-1 text-slate-600 dark:text-slate-400">
+                  <ThumbsUp size={14} /> {item.likes}
+                </button>
                   <button className="px-2 py-1 rounded hover:bg-slate-200 dark:hover:bg-slate-800 transition text-slate-600 dark:text-slate-400">
                     Reply
                   </button>

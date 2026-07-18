@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { BarChart3, FileText, MessageSquare, Eye, TrendingUp, Users, LogOut, Activity, AlertCircle, CheckCircle, Clock } from 'lucide-react'
+import { BarChart3, FileText, MessageSquare, Eye, TrendingUp, Users, LogOut, Activity, AlertCircle, CheckCircle, Clock, Phone, Mail } from 'lucide-react'
 
 const STATS = [
   { label: 'Total Articles', value: '247', icon: FileText, trend: '+12 this month' },
@@ -306,8 +306,12 @@ export default function AdminDashboard() {
               </div>
               <div className="text-sm space-y-1 border-t border-blue-200 dark:border-blue-800 pt-3 mt-3">
                 <p className="font-medium text-slate-700 dark:text-slate-300">Need support?</p>
-                <p className="text-xs text-slate-600 dark:text-slate-400">📞 +91 491 2500000</p>
-                <p className="text-xs text-slate-600 dark:text-slate-400">📧 news@livepalakkad.com</p>
+                <p className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                  <Phone size={12} /> +91 491 2500000
+                </p>
+                <p className="text-xs text-slate-600 dark:text-slate-400 flex items-center gap-1">
+                  <Mail size={12} /> news@livepalakkad.com
+                </p>
               </div>
             </div>
           </div>
