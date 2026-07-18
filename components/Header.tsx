@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import SettingsToggle from './SettingsToggle'
 
 const CATEGORIES = [
   { name: 'Breaking', slug: 'breaking-news' },
@@ -52,6 +53,7 @@ export default function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-3">
+            <SettingsToggle />
             <Link
               href="/desk"
               className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold rounded-lg hover:from-blue-700 hover:to-blue-600 transition shadow-lg hover:shadow-blue-500/50"
