@@ -23,20 +23,27 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-900 dark:from-slate-950 dark:via-blue-950 dark:to-slate-950 border-b border-blue-800/30 shadow-lg">
+    <header className="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+      {/* Domain Bar */}
+      <div className="bg-gray-100 dark:bg-slate-950 border-b border-gray-200 dark:border-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+          <p className="text-center text-sm font-semibold text-gray-700 dark:text-gray-300 tracking-wide">LIVEPALAKKAD.COM</p>
+        </div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Navigation */}
         <div className="flex items-center justify-between h-20">
           {/* Hamburger Menu - Mobile */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-blue-200 hover:bg-white/10 transition"
+            className="md:hidden p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
             aria-label="Toggle menu"
           >
             <Menu className="w-6 h-6" />
           </button>
 
-          {/* Logo */}
+          {/* Logo & Branding */}
           <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
             <div className="relative">
               <Image
@@ -46,11 +53,10 @@ export default function Header() {
                 height={44}
                 className="w-11 h-11 group-hover:scale-110 transition"
               />
-              <div className="absolute -inset-1 bg-blue-500/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition -z-10" />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-xl font-black bg-gradient-to-r from-blue-200 to-white bg-clip-text text-transparent">LivePalakkad</h1>
-              <p className="text-xs text-blue-300">Palakkad First</p>
+              <h1 className="text-xl font-black text-gray-900 dark:text-white">LivePalakkad</h1>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Palakkad First</p>
             </div>
           </Link>
 
@@ -60,7 +66,7 @@ export default function Header() {
               <Link
                 key={cat.enName}
                 href={`/category/${cat.enName.toLowerCase().replace(' & ', '-')}`}
-                className="px-3 py-2 text-sm font-medium text-blue-100 hover:bg-white/10 rounded-lg transition"
+                className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition"
               >
                 {t(cat.key as any, lang)}
               </Link>
@@ -72,7 +78,7 @@ export default function Header() {
             <SettingsToggle />
             <Link
               href="/desk"
-              className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold rounded-lg hover:from-blue-700 hover:to-blue-600 transition shadow-lg hover:shadow-blue-500/50"
+              className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white font-bold rounded-lg hover:bg-gray-900 dark:hover:bg-gray-600 transition shadow-md"
             >
               Admin
             </Link>
@@ -80,34 +86,34 @@ export default function Header() {
         </div>
 
         {/* Secondary Navigation */}
-        <div className="hidden lg:flex items-center gap-6 pb-4 text-sm border-t border-blue-800/20 pt-4">
-          <Link href="/latest" className="text-blue-200 hover:text-white font-medium transition">{t('latest' as any, lang)}</Link>
-          <Link href="/explore" className="text-blue-200 hover:text-white font-medium transition">{t('explore' as any, lang)}</Link>
-          <Link href="/photos" className="text-blue-200 hover:text-white font-medium transition">{t('photos' as any, lang)}</Link>
-          <Link href="/videos" className="text-blue-200 hover:text-white font-medium transition">{t('videos' as any, lang)}</Link>
-          <Link href="/live" className="text-blue-200 hover:text-white font-medium transition flex items-center gap-1">
+        <div className="hidden lg:flex items-center gap-6 pb-4 text-sm border-t border-gray-200 dark:border-gray-800 pt-4">
+          <Link href="/latest" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium transition">{t('latest' as any, lang)}</Link>
+          <Link href="/explore" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium transition">{t('explore' as any, lang)}</Link>
+          <Link href="/photos" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium transition">{t('photos' as any, lang)}</Link>
+          <Link href="/videos" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium transition">{t('videos' as any, lang)}</Link>
+          <Link href="/live" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white font-medium transition flex items-center gap-1">
             <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" /> {t('live' as any, lang)}
           </Link>
         </div>
 
         {/* Mobile Menu Dropdown */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-blue-800/20 bg-blue-900/50 backdrop-blur-sm">
+          <div className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-slate-800 backdrop-blur-sm">
             <nav className="flex flex-col gap-1 p-4">
               {CATEGORY_SLUGS.map((cat) => (
                 <Link
                   key={cat.enName}
                   href={`/category/${cat.enName.toLowerCase().replace(' & ', '-')}`}
-                  className="px-3 py-2 text-sm font-medium text-blue-200 hover:bg-white/10 rounded-lg transition"
+                  className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {t(cat.key as any, lang)}
                 </Link>
               ))}
-              <Link href="/latest" className="px-3 py-2 text-sm font-medium text-blue-200 hover:bg-white/10 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('latest' as any, lang)}</Link>
-              <Link href="/explore" className="px-3 py-2 text-sm font-medium text-blue-200 hover:bg-white/10 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('explore' as any, lang)}</Link>
-              <Link href="/photos" className="px-3 py-2 text-sm font-medium text-blue-200 hover:bg-white/10 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('photos' as any, lang)}</Link>
-              <Link href="/videos" className="px-3 py-2 text-sm font-medium text-blue-200 hover:bg-white/10 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('videos' as any, lang)}</Link>
+              <Link href="/latest" className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('latest' as any, lang)}</Link>
+              <Link href="/explore" className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('explore' as any, lang)}</Link>
+              <Link href="/photos" className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('photos' as any, lang)}</Link>
+              <Link href="/videos" className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition" onClick={() => setMobileMenuOpen(false)}>{t('videos' as any, lang)}</Link>
             </nav>
           </div>
         )}
