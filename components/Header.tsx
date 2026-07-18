@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Bell, Search } from 'lucide-react'
 
 const CATEGORIES = [
   { name: 'Breaking', slug: 'breaking-news' },
@@ -53,13 +52,6 @@ export default function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-3">
-            <button className="p-2 rounded-lg hover:bg-white/10 transition text-blue-200">
-              <Search size={20} />
-            </button>
-            <button className="p-2 rounded-lg hover:bg-white/10 transition text-blue-200 relative">
-              <Bell size={20} />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" />
-            </button>
             <Link
               href="/desk"
               className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-bold rounded-lg hover:from-blue-700 hover:to-blue-600 transition shadow-lg hover:shadow-blue-500/50"
