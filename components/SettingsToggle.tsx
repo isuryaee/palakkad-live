@@ -3,12 +3,30 @@
 import { useLanguage } from '@/app/context/LanguageContext'
 import { useTheme } from '@/app/context/ThemeContext'
 import { Globe, Moon, Sun } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function SettingsToggle() {
+  const [mounted, setMounted] = useState(false)
   const { language, setLanguage } = useLanguage()
   const { theme, toggleTheme } = useTheme()
   const [showMenu, setShowMenu] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
+      <div className="relative flex items-center gap-2">
+        <button className="p-2 rounded-lg opacity-50 cursor-not-allowed" disabled>
+          <Moon className="w-5 h-5" />
+        </button>
+        <button className="p-2 rounded-lg opacity-50 cursor-not-allowed" disabled>
+          <Globe className="w-5 h-5" />
+        </button>
+      </div>
+    )
+  }
 
   return (
     <div className="relative flex items-center gap-2">
