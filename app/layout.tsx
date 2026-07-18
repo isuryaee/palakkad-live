@@ -60,12 +60,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="bg-background">
       <head>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
-      <body className="antialiased bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50 md:pb-0 pb-16">
+      <body className="antialiased bg-background text-foreground md:pb-0 pb-16">
         <ThemeProvider>
           <LanguageProvider>
             <SessionProvider>
