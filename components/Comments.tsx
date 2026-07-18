@@ -2,14 +2,15 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { MessageSquare, UserCircle2 } from 'lucide-react';
+import { MessageSquare, UserCircle2, ThumbsUp } from 'lucide-react';
 
 interface Comment {
   id: string;
   authorName: string;
-  authorEmail?: string;
   content: string;
   createdAt: string;
+  likes?: number;
+  liked?: boolean;
 }
 
 interface CommentsProps {
@@ -19,10 +20,10 @@ interface CommentsProps {
 
 export function Comments({ articleSlug, comments = [] }: CommentsProps) {
   const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
   const [content, setContent] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [allComments, setAllComments] = useState(comments);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +38,6 @@ export function Comments({ articleSlug, comments = [] }: CommentsProps) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       setSubmitted(true);
       setName('');
-      setEmail('');
       setContent('');
       setTimeout(() => setSubmitted(false), 3000);
     } catch (error) {
@@ -45,6 +45,14 @@ export function Comments({ articleSlug, comments = [] }: CommentsProps) {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleLike = (commentId: string) => {
+    setAllComments(allComments.map(c => 
+      c.id === commentId 
+        ? { ...c, liked: !c.liked, likes: (c.likes || 0) + (c.liked ? -1 : 1) }
+        : c
+    ));
   };
 
   const formatTime = (dateStr: string) => {
@@ -72,70 +80,71 @@ export function Comments({ articleSlug, comments = [] }: CommentsProps) {
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="mb-10 bg-slate-100 dark:bg-slate-800 p-6 rounded-lg border border-slate-200 dark:border-slate-700">
+      <form onSubmit={handleSubmit} className="mb-10 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800/50 p-6 rounded-xl border border-blue-200 dark:border-slate-700 shadow-sm">
         <h4 className="font-bold text-sm mb-4 uppercase tracking-wider text-slate-600 dark:text-slate-300">
           Leave a comment
         </h4>
         {submitted && (
-          <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 rounded text-sm">
-            ✓ Comment submitted and awaiting moderation.
+          <div className="mb-4 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 rounded-lg text-sm flex items-center gap-2">
+            <span className="text-lg">✓</span> Comment submitted and awaiting moderation.
           </div>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="space-y-4 mb-4">
           <div className="space-y-2">
-            <label className="text-sm font-medium">Name *</label>
+            <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">Your Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="John Doe"
+              placeholder="Enter your name"
               required
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-sm"
+              className="w-full px-4 py-2.5 border border-blue-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
             />
           </div>
           <div className="space-y-2">
-            <label className="text-sm font-medium">Email (optional)</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="john@example.com"
-              className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-sm"
+            <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">Your Comment</label>
+            <textarea
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="Share your thoughts..."
+              required
+              className="w-full px-4 py-2.5 border border-blue-200 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-sm min-h-[120px] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"
             />
           </div>
         </div>
-        <div className="space-y-2 mb-4">
-          <label className="text-sm font-medium">Your Comment *</label>
-          <textarea
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="Share your thoughts..."
-            className="w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 text-sm min-h-[100px]"
-            required
-          />
-        </div>
-        <Button type="submit" disabled={isLoading} className="w-full md:w-auto">
+        <Button type="submit" disabled={isLoading} className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-6 rounded-lg transition">
           {isLoading ? 'Submitting...' : 'Post Comment'}
         </Button>
       </form>
 
-      <div className="space-y-6">
-        {comments && comments.length > 0 ? (
-          comments.map((comment) => (
-            <div key={comment.id} className="flex gap-4 p-4 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
-              <UserCircle2 className="w-10 h-10 text-slate-400 shrink-0" />
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="font-bold text-sm">{comment.authorName}</span>
+      <div className="space-y-4">
+        {allComments && allComments.length > 0 ? (
+          allComments.map((comment) => (
+            <div key={comment.id} className="flex gap-4 p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors">
+              <UserCircle2 className="w-10 h-10 text-slate-400 shrink-0 mt-1" />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                  <span className="font-bold text-sm text-slate-900 dark:text-white">{comment.authorName}</span>
                   <span className="text-xs text-slate-500 dark:text-slate-400">•</span>
                   <span className="text-xs text-slate-500 dark:text-slate-400">{formatTime(comment.createdAt)}</span>
                 </div>
-                <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{comment.content}</p>
+                <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-3">{comment.content}</p>
+                <button
+                  onClick={() => handleLike(comment.id)}
+                  className={`flex items-center gap-1.5 text-xs font-medium transition-colors ${
+                    comment.liked
+                      ? 'text-blue-600 dark:text-blue-400'
+                      : 'text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400'
+                  }`}
+                >
+                  <ThumbsUp size={14} className={comment.liked ? 'fill-current' : ''} />
+                  Like {comment.likes && comment.likes > 0 && `(${comment.likes})`}
+                </button>
               </div>
             </div>
           ))
         ) : (
-          <p className="text-center text-slate-500 dark:text-slate-400 italic py-8 border border-dashed border-slate-300 dark:border-slate-700 rounded-lg">
+          <p className="text-center text-slate-500 dark:text-slate-400 italic py-12 border border-dashed border-slate-300 dark:border-slate-700 rounded-lg bg-slate-50 dark:bg-slate-800/30">
             No comments yet. Be the first to share your thoughts!
           </p>
         )}
