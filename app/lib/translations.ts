@@ -67,7 +67,7 @@ export const translations = {
     weather: 'കാലാവസ്ഥ',
     explore: 'പര്യവേക്ഷണം ചെയ്യുക',
     admin: 'അഡ്മിൻ',
-    latest: 'ഏറ്റവും പുതിയ',
+    latest: 'പുതിയത്',
     trending: 'ട്രെൻഡിങ്ങ്',
     search: 'തിരയുക',
     photos: 'ഫോട്ടോകൾ',
