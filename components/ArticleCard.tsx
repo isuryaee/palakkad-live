@@ -11,8 +11,10 @@ interface ArticleCardProps {
   categorySlug: string
   publishedAt: string
   isBreaking?: boolean
-  layout?: 'vertical' | 'horizontal'
+  layout?: 'vertical' | 'horizontal' | 'hero' | 'compact'
   views?: number
+  categoryColor?: string
+  hideExcerpt?: boolean
 }
 
 export default function ArticleCard({
@@ -26,7 +28,69 @@ export default function ArticleCard({
   isBreaking,
   layout = 'vertical',
   views,
+  categoryColor = '#2563eb',
+  hideExcerpt = false,
 }: ArticleCardProps) {
+
+  // Hero layout
+  if (layout === 'hero') {
+    return (
+      <Link href={`/articles/${slug}`} className="group relative block aspect-video sm:aspect-[2/1] overflow-hidden rounded-lg">
+        {image && (
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+          <div className="flex items-center gap-3 mb-3">
+            <span
+              className="px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white rounded"
+              style={{ backgroundColor: categoryColor }}
+            >
+              {category}
+            </span>
+            {isBreaking && <span className="px-2.5 py-1 text-xs font-bold uppercase tracking-wider text-white bg-red-600 rounded">Breaking</span>}
+            <span className="text-white/80 text-sm font-sans flex items-center gap-1">
+              <Clock className="w-3 h-3" />
+              {publishedAt}
+            </span>
+          </div>
+          <h2 className="text-2xl md:text-4xl font-black text-white leading-tight mb-2 group-hover:text-white/90 transition-colors">
+            {title}
+          </h2>
+          {!hideExcerpt && excerpt && (
+            <p className="text-white/80 line-clamp-2 text-sm md:text-base font-sans max-w-3xl">
+              {excerpt}
+            </p>
+          )}
+        </div>
+      </Link>
+    )
+  }
+
+  // Compact layout
+  if (layout === 'compact') {
+    return (
+      <Link href={`/articles/${slug}`} className="group block">
+        <h3 className="font-semibold text-sm md:text-base leading-snug group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors mb-1">
+          {title}
+        </h3>
+        <div className="flex items-center gap-2">
+          <span
+            className="text-[10px] font-bold uppercase tracking-wider"
+            style={{ color: categoryColor }}
+          >
+            {category}
+          </span>
+          <span className="text-slate-600 dark:text-slate-400 text-[10px] font-sans">{publishedAt}</span>
+        </div>
+      </Link>
+    )
+  }
 
   if (layout === 'horizontal') {
     return (

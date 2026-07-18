@@ -1,6 +1,10 @@
-import Header from '@/components/Header'
+import HeaderWithSettings from '@/components/HeaderWithSettings'
 import Footer from '@/components/Footer'
 import ArticleCard from '@/components/ArticleCard'
+import { BreakingTicker } from '@/components/BreakingTicker'
+import { WeatherWidget } from '@/components/WeatherWidget'
+import { PollWidget } from '@/components/PollWidget'
+import { MobileBottomNav } from '@/components/MobileBottomNav'
 import Link from 'next/link'
 import Image from 'next/image'
 import { AlertCircle, Zap, Camera, Video, TrendingUp, MapPin, Clock, Eye, Radio, Share2, Bookmark, Radio as RadioIcon } from 'lucide-react'
@@ -90,10 +94,11 @@ const LOCATIONS = [
 export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-950 dark:to-slate-900">
-      <Header />
+      <HeaderWithSettings />
+      <BreakingTicker />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Breaking News Alert */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:pb-0 pb-20">
+        {/* Breaking News Alert - Original */}
         <div className="mb-8 p-4 bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg flex items-center gap-4 shadow-lg">
           <div className="flex items-center gap-2 flex-shrink-0">
             <div className="w-3 h-3 bg-red-300 rounded-full animate-pulse" />
@@ -155,6 +160,12 @@ export default function HomePage() {
 
           {/* Right Sidebar */}
           <div className="lg:col-span-2 space-y-8">
+            {/* Weather Widget */}
+            <WeatherWidget />
+
+            {/* Poll Widget */}
+            <PollWidget />
+
             {/* Featured Sections Grid */}
             <div className="grid grid-cols-2 gap-4">
               <Link href="/photos" className="group relative rounded-lg overflow-hidden h-32 bg-slate-800 shadow-lg hover:shadow-xl transition">
@@ -313,6 +324,7 @@ export default function HomePage() {
       </main>
 
       <Footer />
+      <MobileBottomNav />
     </div>
   )
 }

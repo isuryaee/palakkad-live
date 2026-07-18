@@ -1,6 +1,8 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { SessionProvider } from 'next-auth/react'
+import { LanguageProvider } from './context/LanguageContext'
+import { ThemeProvider } from './context/ThemeContext'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -36,9 +38,13 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       <body className="antialiased bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-50">
-        <SessionProvider>
-          {children}
-        </SessionProvider>
+        <ThemeProvider>
+          <LanguageProvider>
+            <SessionProvider>
+              {children}
+            </SessionProvider>
+          </LanguageProvider>
+        </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
