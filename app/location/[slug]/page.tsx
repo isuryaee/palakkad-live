@@ -47,7 +47,8 @@ const MOCK_ARTICLES = [
   },
 ]
 
-export default function LocationPage({ params }: { params: { slug: string } }) {
+export default async function LocationPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params
   const location = LOCATIONS_MAP[params.slug] || LOCATIONS_MAP['palakkad-town']
 
   return (

@@ -49,7 +49,8 @@ const MOCK_ARTICLES = [
   },
 ]
 
-export default function CategoryPage({ params }: { params: { slug: string } }) {
+export default async function CategoryPage(props: { params: Promise<{ slug: string }> }) {
+  const params = await props.params
   const category = CATEGORIES_MAP[params.slug] || CATEGORIES_MAP['breaking-news']
 
   return (
