@@ -98,52 +98,31 @@ export default function HomePage() {
       <BreakingTicker />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:pb-0 pb-20">
-        {/* Breaking News Alert - Enhanced */}
-        <Link href={`/articles/${BREAKING_NEWS.slug}`} className="group mb-8 block">
-          <div className="relative overflow-hidden rounded-xl shadow-xl hover:shadow-2xl transition-all duration-300">
-            {/* Animated Background */}
-            <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-500 to-orange-600 opacity-90 group-hover:opacity-100 transition-opacity" />
-            <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
-              <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,.2)_25%,rgba(255,255,255,.2)_50%,transparent_50%,transparent_75%,rgba(255,255,255,.2)_75%,rgba(255,255,255,.2))] bg-[length:40px_40px] animate-pulse" />
-            </div>
-
-            {/* Content */}
-            <div className="relative p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6">
-              {/* Left Icon Section */}
-              <div className="flex-shrink-0">
-                <div className="relative">
-                  <div className="absolute inset-0 bg-white/20 rounded-full blur-lg animate-pulse" />
-                  <div className="relative bg-white/10 backdrop-blur-sm p-4 rounded-full border border-white/30">
-                    <AlertTriangle className="w-8 h-8 text-white" />
-                  </div>
-                </div>
+        {/* Breaking News Alert - Compact Premium */}
+        <Link href={`/articles/${BREAKING_NEWS.slug}`} className="group mb-6 block">
+          <div className="relative overflow-hidden rounded-lg border border-red-200 dark:border-red-900/50 bg-gradient-to-r from-red-50 to-red-50/50 dark:from-red-950/30 dark:to-red-950/20 hover:border-red-300 dark:hover:border-red-800 transition-all duration-300 shadow-sm hover:shadow-md">
+            <div className="relative px-4 py-3 sm:px-5 sm:py-4 flex items-start gap-3">
+              {/* Icon */}
+              <div className="flex-shrink-0 pt-0.5">
+                <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
               </div>
 
-              {/* Middle Content Section */}
+              {/* Content */}
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/20 backdrop-blur-sm text-white text-xs font-black uppercase tracking-wider rounded-full border border-white/30">
-                    <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="inline-block px-2 py-0.5 bg-red-600 text-white text-xs font-bold uppercase tracking-wider rounded">
                     BREAKING
                   </span>
                 </div>
-                <h2 className="text-xl md:text-2xl font-black text-white leading-tight mb-2 text-balance">{BREAKING_NEWS.title}</h2>
-                <p className="text-white/90 text-sm md:text-base leading-relaxed">{BREAKING_NEWS.excerpt}</p>
+                <h3 className="text-sm sm:text-base font-bold text-foreground leading-snug line-clamp-2">{BREAKING_NEWS.title}</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-1 line-clamp-2">{BREAKING_NEWS.excerpt}</p>
               </div>
 
-              {/* Right CTA Section */}
-              <div className="flex-shrink-0 md:ml-auto">
-                <div className="flex items-center justify-center md:justify-start">
-                  <div className="group/btn px-6 py-3 bg-white text-red-600 font-black rounded-lg shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2">
-                    <span>READ NOW</span>
-                    <ChevronRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
-                  </div>
-                </div>
+              {/* Arrow */}
+              <div className="flex-shrink-0 text-red-600 group-hover:translate-x-1 transition-transform">
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </div>
             </div>
-
-            {/* Bottom Accent Line */}
-            <div className="h-1 bg-gradient-to-r from-yellow-300 via-orange-300 to-transparent" />
           </div>
         </Link>
 
