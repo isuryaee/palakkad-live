@@ -99,11 +99,11 @@ export default function Header() {
           </Link>
         </div>
 
-        {/* Mobile Menu Dropdown - Optimized with CSS transitions */}
-        <div className={`md:hidden overflow-hidden transition-all duration-200 ease-in-out ${
+        {/* Mobile Menu Dropdown - Instant like Instagram */}
+        <div className={`md:hidden ${
           mobileMenuOpen 
-            ? 'max-h-96 opacity-100 visible' 
-            : 'max-h-0 opacity-0 invisible'
+            ? 'block' 
+            : 'hidden'
         }`}>
           <div className="border-t border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-slate-800 backdrop-blur-sm">
             <nav className="flex flex-col gap-1 p-4">
