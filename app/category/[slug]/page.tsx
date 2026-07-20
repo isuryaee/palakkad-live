@@ -41,7 +41,7 @@ interface Category {
 
 export default function CategoryPage() {
   const params = useParams()
-  const slug = params.slug as string
+  const slug = (params.slug || '') as string
 
   const [articles, setArticles] = useState<Article[]>([])
   const [category, setCategory] = useState<Category | null>(null)
@@ -51,7 +51,9 @@ export default function CategoryPage() {
   const [loadingMore, setLoadingMore] = useState(false)
 
   useEffect(() => {
-    fetchArticles(1)
+    if (slug) {
+      fetchArticles(1)
+    }
   }, [slug])
 
   const fetchArticles = async (pageNum: number) => {
@@ -77,6 +79,8 @@ export default function CategoryPage() {
 
       setHasMore(data.pagination.hasMore)
       setPage(pageNum)
+      if (isFirstPage) setLoading(false)
+      else setLoadingMore(false)
     } catch (error) {
       console.error('Error fetching articles:', error)
     } finally {
