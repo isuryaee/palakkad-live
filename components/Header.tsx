@@ -2,21 +2,38 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
 import SettingsToggle from './SettingsToggle'
 
-const CATEGORIES = [
-  { name: 'Breaking', slug: 'breaking-news' },
-  { name: 'Politics', slug: 'politics' },
-  { name: 'Crime', slug: 'crime' },
-  { name: 'Weather', slug: 'weather' },
-  { name: 'Sports', slug: 'sports' },
-  { name: 'Education', slug: 'education' },
-]
+interface Category {
+  name: string
+  slug: string
+  icon?: string
+}
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [categories, setCategories] = useState<Category[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('/api/categories')
+      if (response.ok) {
+        const data = await response.json()
+        setCategories(data.slice(0, 6)) // Show first 6 categories
+      }
+    } catch (error) {
+      console.error('Failed to fetch categories:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <header className="sticky top-0 z-50">
@@ -62,15 +79,25 @@ export default function Header() {
 
           {/* Desktop Categories */}
           <nav className="hidden lg:flex items-center gap-1">
-            {CATEGORIES.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/category/${cat.slug}`}
-                className="px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-muted rounded-lg transition"
-              >
-                {cat.name}
-              </Link>
-            ))}
+            {!loading && categories.length > 0 ? (
+              <>
+                {categories.map((cat) => (
+                  <Link
+                    key={cat.slug}
+                    href={`/category/${cat.slug}`}
+                    className="px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-muted rounded-lg transition"
+                  >
+                    {cat.icon} {cat.name}
+                  </Link>
+                ))}
+                <Link
+                  href="/categories"
+                  className="px-3 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950 rounded-lg transition"
+                >
+                  More
+                </Link>
+              </>
+            ) : null}
           </nav>
 
           {/* Right Actions */}
@@ -88,16 +115,27 @@ export default function Header() {
         {/* Mobile Menu Drawer */}
         {menuOpen && (
           <div className="lg:hidden bg-card border-b border-border py-4 space-y-2">
-            {CATEGORIES.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/category/${cat.slug}`}
-                onClick={() => setMenuOpen(false)}
-                className="block px-4 py-2 text-sm font-medium text-foreground/80 hover:bg-muted rounded-lg transition"
-              >
-                {cat.name}
-              </Link>
-            ))}
+            {!loading && categories.length > 0 && (
+              <>
+                {categories.map((cat) => (
+                  <Link
+                    key={cat.slug}
+                    href={`/category/${cat.slug}`}
+                    onClick={() => setMenuOpen(false)}
+                    className="block px-4 py-2 text-sm font-medium text-foreground/80 hover:bg-muted rounded-lg transition"
+                  >
+                    {cat.icon} {cat.name}
+                  </Link>
+                ))}
+                <Link
+                  href="/categories"
+                  onClick={() => setMenuOpen(false)}
+                  className="block px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950 rounded-lg transition"
+                >
+                  All Categories
+                </Link>
+              </>
+            )}
             <Link
               href="/latest"
               onClick={() => setMenuOpen(false)}

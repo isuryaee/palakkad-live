@@ -2,10 +2,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getSession } from '@/lib/auth'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const categories = await prisma.category.findMany({
-      include: { section: true },
+      include: {
+        section: true,
+        _count: {
+          select: { articles: true },
+        },
+      },
       orderBy: { order: 'asc' },
     })
     return NextResponse.json(categories)

@@ -7,6 +7,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 // ============================================================================
@@ -214,7 +215,8 @@ model Article {
   excerpt           String?
   excerptMal        String?
   featuredImage     String?  // URL to featured image
-  status            ArticleStatus @default(DRAFT) // DRAFT, SCHEDULED, PUBLISHED, ARCHIVED
+  status            String   @default("DRAFT") // DRAFT, SCHEDULED, PUBLISHED, ARCHIVED
+  published         Boolean  @default(false)
   isBreaking        Boolean  @default(false)
   publishedAt       DateTime?
   scheduledFor      DateTime? // For scheduled posts
@@ -245,7 +247,7 @@ model Article {
   relatedFrom       ArticleRelation[] @relation("related")
 
   @@index([slug])
-  @@index([status])
+  @@index([published])
   @@index([publishedAt])
   @@index([categoryId])
   @@index([locationId])
@@ -253,12 +255,7 @@ model Article {
   @@index([isBreaking])
 }
 
-enum ArticleStatus {
-  DRAFT
-  SCHEDULED
-  PUBLISHED
-  ARCHIVED
-}
+// ArticleStatus: DRAFT, SCHEDULED, PUBLISHED, ARCHIVED
 
 model ArticleImage {
   id        String   @id @default(cuid())
@@ -357,7 +354,7 @@ model Comment {
   articleId String
   userId    String
   content   String  
-  status    CommentStatus @default(PENDING) // PENDING, APPROVED, REJECTED, SPAM
+  status    String   @default("PENDING") // PENDING, APPROVED, REJECTED, SPAM
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -369,12 +366,7 @@ model Comment {
   @@index([status])
 }
 
-enum CommentStatus {
-  PENDING
-  APPROVED
-  REJECTED
-  SPAM
-}
+// CommentStatus: PENDING, APPROVED, REJECTED, SPAM
 
 // ============================================================================
 // ADVERTISEMENTS
@@ -407,7 +399,7 @@ model Reporter {
   name        String
   bio         String?
   photo       String?  // URL to profile photo
-  social      Json?    // { twitter, facebook, linkedin, etc. }
+  social      String?  // JSON string: { twitter, facebook, linkedin, etc. }
   order       Int      @default(0)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -441,17 +433,14 @@ model NewsletterSubscriber {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
-  status    SubscriptionStatus @default(ACTIVE) // ACTIVE, UNSUBSCRIBED
+  status    String   @default("ACTIVE") // ACTIVE, UNSUBSCRIBED
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([status])
 }
 
-enum SubscriptionStatus {
-  ACTIVE
-  UNSUBSCRIBED
-}
+// SubscriptionStatus: ACTIVE, UNSUBSCRIBED
 
 // ============================================================================
 // PUSH NOTIFICATIONS

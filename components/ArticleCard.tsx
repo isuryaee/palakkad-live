@@ -2,19 +2,38 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Clock, Eye, ArrowRight } from 'lucide-react'
 
-interface ArticleCardProps {
+interface ArticleObject {
+  id: string
   slug: string
   title: string
   excerpt?: string
   image?: string
-  category: string
-  categorySlug: string
-  publishedAt: string
+  category?: {
+    name: string
+    slug: string
+  }
+  author?: {
+    name: string
+    image?: string
+  }
+  createdAt: string
+  updatedAt?: string
+}
+
+interface ArticleCardProps {
+  slug?: string
+  title?: string
+  excerpt?: string
+  image?: string
+  category?: string
+  categorySlug?: string
+  publishedAt?: string
   isBreaking?: boolean
   layout?: 'vertical' | 'horizontal' | 'hero' | 'compact'
   views?: number
   categoryColor?: string
   hideExcerpt?: boolean
+  article?: ArticleObject
 }
 
 export default function ArticleCard({
@@ -30,7 +49,23 @@ export default function ArticleCard({
   views,
   categoryColor = '#2563eb',
   hideExcerpt = false,
+  article,
 }: ArticleCardProps) {
+  // Handle article object format
+  if (article) {
+    slug = article.slug
+    title = article.title
+    excerpt = article.excerpt
+    image = article.image
+    category = article.category?.name || 'News'
+    categorySlug = article.category?.slug || ''
+    const date = new Date(article.createdAt)
+    publishedAt = date.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric',
+      year: date.getFullYear() !== new Date().getFullYear() ? 'numeric' : undefined
+    })
+  }
 
   // Hero layout
   if (layout === 'hero') {
