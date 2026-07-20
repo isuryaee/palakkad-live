@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
+import { getCategoryIcon } from '@/lib/icons'
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 async function getSection(slug: string) {
   try {
@@ -55,7 +56,10 @@ export default async function SectionPage(props: {
       <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-900 dark:to-blue-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="flex items-center gap-6 mb-4">
-            <div className="text-6xl">{section.icon}</div>
+            {(() => {
+              const Icon = getCategoryIcon(section.slug)
+              return <Icon size={48} className="text-white" />
+            })()}
             <div>
               <h1 className="text-4xl font-black mb-2">{section.name}</h1>
               {section.description && (
@@ -90,7 +94,10 @@ export default async function SectionPage(props: {
                   className="group p-8 bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 hover:shadow-lg hover:border-blue-500 dark:hover:border-blue-500 transition"
                 >
                   <div className="flex items-start justify-between mb-4">
-                    <div className="text-4xl">{category.icon}</div>
+                    {(() => {
+                      const Icon = getCategoryIcon(category.slug)
+                      return <Icon size={32} className="text-blue-600 dark:text-blue-400" />
+                    })()}
                     <div className="text-xs font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-2 py-1 rounded">
                       VIEW
                     </div>

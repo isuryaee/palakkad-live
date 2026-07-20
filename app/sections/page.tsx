@@ -1,5 +1,8 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
+import { getCategoryIcon } from '@/lib/icons'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   title: 'News Sections - LivePalakkad',
@@ -55,7 +58,10 @@ export default async function SectionsPage() {
                 {/* Section Header */}
                 <div className="bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-900 dark:to-blue-800 p-8">
                   <div className="flex items-center gap-4">
-                    <div className="text-5xl">{section.icon}</div>
+                    {(() => {
+                      const Icon = getCategoryIcon(section.slug)
+                      return <Icon size={40} className="text-white" />
+                    })()}
                     <div>
                       <h2 className="text-3xl font-black text-white">{section.name}</h2>
                       {section.description && (
@@ -78,7 +84,10 @@ export default async function SectionsPage() {
                           className="group p-6 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 hover:shadow-md transition"
                         >
                           <div className="flex items-start justify-between mb-3">
-                            <div className="text-3xl">{category.icon}</div>
+                            {(() => {
+                              const Icon = getCategoryIcon(category.slug)
+                              return <Icon size={24} className="text-blue-600 dark:text-blue-400" />
+                            })()}
                             <div className="opacity-0 group-hover:opacity-100 transition text-blue-600 dark:text-blue-400 text-sm font-medium">
                               View →
                             </div>
