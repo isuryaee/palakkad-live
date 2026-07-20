@@ -7,6 +7,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ArticleCard from '@/components/ArticleCard'
 import { ChevronLeft, Loader } from 'lucide-react'
+import { getCategoryIcon } from '@/lib/icons'
 
 interface Article {
   id: string
@@ -134,9 +135,13 @@ export default function CategoryPage() {
           <Link href="/" className="flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:underline mb-4">
             <ChevronLeft size={18} /> Back to Home
           </Link>
-          <h1 className="text-4xl md:text-5xl font-black mb-2">
-            {category.icon} {category.name}
-          </h1>
+          <div className="flex items-center gap-4 mb-2">
+            {(() => {
+              const Icon = getCategoryIcon(category.slug)
+              return <Icon size={40} className="text-blue-600 dark:text-blue-400" />
+            })()}
+            <h1 className="text-4xl md:text-5xl font-black">{category.name}</h1>
+          </div>
           {category.nameMal && <p className="text-lg text-slate-600 dark:text-slate-400">{category.nameMal}</p>}
           {category.description && <p className="text-lg text-slate-600 dark:text-slate-400 mt-2">{category.description}</p>}
         </div>

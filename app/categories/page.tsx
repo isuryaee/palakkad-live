@@ -5,6 +5,7 @@ import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { ChevronRight, Loader } from 'lucide-react'
+import { getCategoryIcon } from '@/lib/icons'
 
 interface Category {
   id: string
@@ -75,7 +76,10 @@ export default function CategoriesPage() {
                 className="group bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg p-6 hover:shadow-lg hover:border-blue-400 dark:hover:border-blue-600 transition-all"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="text-4xl">{category.icon || '📰'}</div>
+                  {(() => {
+                    const Icon = getCategoryIcon(category.slug)
+                    return <Icon size={32} className="text-blue-600 dark:text-blue-400" />
+                  })()}
                   <ChevronRight size={20} className="text-slate-400 group-hover:text-blue-600 transition-colors" />
                 </div>
 

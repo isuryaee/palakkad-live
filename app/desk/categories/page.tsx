@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { Plus, Edit2, Trash2, ChevronLeft, Layers, AlertCircle, CheckCircle } from 'lucide-react'
+import { getCategoryIcon } from '@/lib/icons'
 
 interface Section {
   id: string
@@ -37,7 +38,7 @@ export default function CategoriesPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const [formData, setFormData] = useState({ name: '', nameMal: '', slug: '', description: '', descriptionMal: '', icon: '📌', sectionId: '' })
+  const [formData, setFormData] = useState({ name: '', nameMal: '', slug: '', description: '', descriptionMal: '', icon: 'news', sectionId: '' })
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -94,7 +95,7 @@ export default function CategoriesPage() {
       }
 
       await fetchData()
-      setFormData({ name: '', nameMal: '', slug: '', description: '', descriptionMal: '', icon: '📌', sectionId: '' })
+      setFormData({ name: '', nameMal: '', slug: '', description: '', descriptionMal: '', icon: 'news', sectionId: '' })
       setShowForm(false)
       setSuccess('Category created successfully!')
       setTimeout(() => setSuccess(''), 3000)
@@ -290,7 +291,10 @@ export default function CategoriesPage() {
             {categories.map((category) => (
               <div key={category.id} className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-6 hover:shadow-lg transition">
                 <div className="flex items-start justify-between mb-3">
-                  <div className="text-3xl">{category.icon}</div>
+                  {(() => {
+                    const Icon = getCategoryIcon(category.slug)
+                    return <Icon size={28} className="text-blue-600 dark:text-blue-400" />
+                  })()}
                   <div className="flex gap-1">
                     <Link
                       href={`/desk/categories/${category.id}/edit`}

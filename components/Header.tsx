@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
 import SettingsToggle from './SettingsToggle'
+import { getCategoryIcon } from '@/lib/icons'
 
 interface Category {
   name: string
@@ -81,15 +82,19 @@ export default function Header() {
           <nav className="hidden lg:flex items-center gap-1">
             {!loading && categories.length > 0 ? (
               <>
-                {categories.map((cat) => (
-                  <Link
-                    key={cat.slug}
-                    href={`/category/${cat.slug}`}
-                    className="px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-muted rounded-lg transition"
-                  >
-                    {cat.icon} {cat.name}
-                  </Link>
-                ))}
+                {categories.map((cat) => {
+                  const Icon = getCategoryIcon(cat.slug)
+                  return (
+                    <Link
+                      key={cat.slug}
+                      href={`/category/${cat.slug}`}
+                      className="px-3 py-2 text-sm font-medium text-foreground/80 hover:bg-muted rounded-lg transition flex items-center gap-1"
+                    >
+                      <Icon size={16} />
+                      {cat.name}
+                    </Link>
+                  )
+                })}
                 <Link
                   href="/categories"
                   className="px-3 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950 rounded-lg transition"
@@ -117,16 +122,20 @@ export default function Header() {
           <div className="lg:hidden bg-card border-b border-border py-4 space-y-2">
             {!loading && categories.length > 0 && (
               <>
-                {categories.map((cat) => (
-                  <Link
-                    key={cat.slug}
-                    href={`/category/${cat.slug}`}
-                    onClick={() => setMenuOpen(false)}
-                    className="block px-4 py-2 text-sm font-medium text-foreground/80 hover:bg-muted rounded-lg transition"
-                  >
-                    {cat.icon} {cat.name}
-                  </Link>
-                ))}
+                {categories.map((cat) => {
+                  const Icon = getCategoryIcon(cat.slug)
+                  return (
+                    <Link
+                      key={cat.slug}
+                      href={`/category/${cat.slug}`}
+                      onClick={() => setMenuOpen(false)}
+                      className="block px-4 py-2 text-sm font-medium text-foreground/80 hover:bg-muted rounded-lg transition flex items-center gap-2"
+                    >
+                      <Icon size={16} />
+                      {cat.name}
+                    </Link>
+                  )
+                })}
                 <Link
                   href="/categories"
                   onClick={() => setMenuOpen(false)}
