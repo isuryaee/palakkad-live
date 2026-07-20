@@ -11,6 +11,6 @@ export default defineConfig({
   },
   datasource: {
     adapter: "sqlite",
-    url: process.env["DATABASE_URL"] || "file:dev.db",
+    url: process.env["DATABASE_URL"] || "file:./dev.db",
   },
 });

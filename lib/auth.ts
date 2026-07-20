@@ -10,7 +10,7 @@ const DEMO_USER = {
   image: null,
 };
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const { handlers, auth: nextAuth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       credentials: {
@@ -66,3 +66,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     error: "/auth/error",
   },
 });
+
+export const auth = nextAuth;
+
+export async function getSession() {
+  return await nextAuth();
+}

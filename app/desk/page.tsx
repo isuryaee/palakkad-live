@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { BarChart3, FileText, MessageSquare, Eye, TrendingUp, Users, LogOut, Activity, AlertCircle, CheckCircle, Clock, Phone, Mail } from 'lucide-react'
+import { BarChart3, FileText, MessageSquare, Eye, TrendingUp, Users, LogOut, Activity, AlertCircle, CheckCircle, Clock, Phone, Mail, Layers } from 'lucide-react'
 
 const STATS = [
   { label: 'Total Articles', value: '247', icon: FileText, trend: '+12 this month' },
@@ -21,6 +21,7 @@ const RECENT_ARTICLES = [
 
 const MENU_ITEMS = [
   { label: 'Articles', href: '/desk/articles', icon: FileText },
+  { label: 'Sections', href: '/desk/sections', icon: Layers },
   { label: 'Categories', href: '/desk/categories', icon: FileText },
   { label: 'Comments', href: '/desk/comments', icon: MessageSquare },
   { label: 'Users & Roles', href: '/desk/users', icon: Users },

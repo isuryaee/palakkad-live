@@ -6,8 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = env("DATABASE_PROVIDER")
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
 }
 
 // ============================================================================
@@ -131,6 +130,27 @@ model UserRole {
 // CONTENT MODELS
 // ============================================================================
 
+model Section {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  nameMal     String   @unique // Malayalam name
+  slug        String   @unique
+  description String?
+  descriptionMal String?
+  icon        String?  // emoji or icon identifier
+  heroImage   String?  // URL to hero image
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  categories Category[]
+
+  @@index([slug])
+  @@index([order])
+  @@index([isActive])
+}
+
 model Category {
   id          String   @id @default(cuid())
   name        String   @unique
@@ -141,6 +161,8 @@ model Category {
   icon        String?  // emoji or icon identifier
   order       Int      @default(0)
   heroImage   String?  // URL to hero image
+  sectionId   String?
+  section     Section? @relation(fields: [sectionId], references: [id], onDelete: SetNull)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
@@ -148,6 +170,7 @@ model Category {
 
   @@index([slug])
   @@index([order])
+  @@index([sectionId])
 }
 
 model Location {

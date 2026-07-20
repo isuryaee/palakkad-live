@@ -10,26 +10,21 @@ interface Section {
   id: string
   name: string
   nameMal: string
-}
-
-interface Category {
-  id: string
-  name: string
-  nameMal: string
   slug: string
   description?: string
   descriptionMal?: string
   icon?: string
+  heroImage?: string
   order: number
-  sectionId?: string
-  section?: Section
-  _count?: { articles: number }
+  isActive: boolean
+  categories: any[]
+  createdAt: string
+  updatedAt: string
 }
 
-export default function CategoriesPage() {
+export default function SectionsPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [categories, setCategories] = useState<Category[]>([])
   const [sections, setSections] = useState<Section[]>([])
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
@@ -37,7 +32,14 @@ export default function CategoriesPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
-  const [formData, setFormData] = useState({ name: '', nameMal: '', slug: '', description: '', descriptionMal: '', icon: '📌', sectionId: '' })
+  const [formData, setFormData] = useState({
+    name: '',
+    nameMal: '',
+    slug: '',
+    description: '',
+    descriptionMal: '',
+    icon: '📰',
+  })
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -47,29 +49,21 @@ export default function CategoriesPage() {
 
   useEffect(() => {
     if (session) {
-      fetchData()
+      fetchSections()
     }
   }, [session])
 
-  const fetchData = async () => {
+  const fetchSections = async () => {
     try {
       setLoading(true)
-      const [categoriesRes, sectionsRes] = await Promise.all([
-        fetch('/api/categories'),
-        fetch('/api/sections'),
-      ])
-
-      if (!categoriesRes.ok || !sectionsRes.ok) throw new Error('Failed to fetch')
-
-      const categoriesData = await categoriesRes.json()
-      const sectionsData = await sectionsRes.json()
-
-      setCategories(categoriesData)
-      setSections(sectionsData)
+      const response = await fetch('/api/sections')
+      if (!response.ok) throw new Error('Failed to fetch')
+      const data = await response.json()
+      setSections(data)
       setError('')
     } catch (err) {
-      console.error('Error fetching data:', err)
-      setError('Failed to load categories')
+      console.error('Error fetching sections:', err)
+      setError('Failed to load sections')
     } finally {
       setLoading(false)
     }
@@ -82,7 +76,7 @@ export default function CategoriesPage() {
     }
 
     try {
-      const response = await fetch('/api/categories', {
+      const response = await fetch('/api/sections', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
@@ -93,30 +87,30 @@ export default function CategoriesPage() {
         throw new Error(data.error)
       }
 
-      await fetchData()
-      setFormData({ name: '', nameMal: '', slug: '', description: '', descriptionMal: '', icon: '📌', sectionId: '' })
+      await fetchSections()
+      setFormData({ name: '', nameMal: '', slug: '', description: '', descriptionMal: '', icon: '📰' })
       setShowForm(false)
-      setSuccess('Category created successfully!')
+      setSuccess('Section created successfully!')
       setTimeout(() => setSuccess(''), 3000)
     } catch (err: any) {
-      setError(err.message || 'Failed to create category')
+      setError(err.message || 'Failed to create section')
     }
   }
 
   const handleDelete = async (id: string) => {
     try {
-      const response = await fetch(`/api/categories/${id}`, {
+      const response = await fetch(`/api/sections/${id}`, {
         method: 'DELETE',
       })
 
       if (!response.ok) throw new Error('Failed to delete')
 
-      await fetchData()
+      await fetchSections()
       setDeleteId(null)
-      setSuccess('Category deleted successfully!')
+      setSuccess('Section deleted successfully!')
       setTimeout(() => setSuccess(''), 3000)
     } catch (err: any) {
-      setError(err.message || 'Failed to delete category')
+      setError(err.message || 'Failed to delete section')
     }
   }
 
@@ -142,25 +136,17 @@ export default function CategoriesPage() {
                 <ChevronLeft size={24} />
               </Link>
               <div>
-                <h1 className="text-3xl font-black">Categories Management</h1>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Create and manage article categories</p>
+                <h1 className="text-3xl font-black">Sections Management</h1>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Create and manage article sections</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <Link
-                href="/desk/sections"
-                className="px-4 py-2 border border-slate-300 dark:border-slate-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition font-medium"
-              >
-                Manage Sections
-              </Link>
-              <button
-                onClick={() => setShowForm(!showForm)}
-                className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
-              >
-                <Plus size={18} />
-                New Category
-              </button>
-            </div>
+            <button
+              onClick={() => setShowForm(!showForm)}
+              className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
+            >
+              <Plus size={18} />
+              New Section
+            </button>
           </div>
         </div>
       </div>
@@ -183,23 +169,23 @@ export default function CategoriesPage() {
         {/* Add Form */}
         {showForm && (
           <div className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-6 mb-8">
-            <h2 className="text-lg font-black mb-4">Add New Category</h2>
+            <h2 className="text-lg font-black mb-4">Add New Section</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">Category Name (English)</label>
+                <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">Section Name (English)</label>
                 <input
                   type="text"
-                  placeholder="e.g., Politics"
+                  placeholder="e.g., Breaking News"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">വിഭാഗത്തിന്റെ പേര് (Malayalam)</label>
+                <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">സെക്ഷൻ പേര് (Malayalam)</label>
                 <input
                   type="text"
-                  placeholder="e.g., രാഷ്ട്രീയം"
+                  placeholder="e.g., വിശേഷ വാർത്ത"
                   value={formData.nameMal}
                   onChange={(e) => setFormData({ ...formData, nameMal: e.target.value })}
                   className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -209,7 +195,7 @@ export default function CategoriesPage() {
                 <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">URL Slug</label>
                 <input
                   type="text"
-                  placeholder="e.g., politics"
+                  placeholder="e.g., breaking-news"
                   value={formData.slug}
                   onChange={(e) => setFormData({ ...formData, slug: e.target.value.toLowerCase().replace(/\s+/g, '-') })}
                   className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -219,33 +205,17 @@ export default function CategoriesPage() {
                 <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">Icon (Emoji)</label>
                 <input
                   type="text"
-                  placeholder="e.g., 🏛️"
+                  placeholder="e.g., 📰"
                   value={formData.icon}
                   onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
                   maxLength={2}
                   className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">Section</label>
-                <select
-                  value={formData.sectionId}
-                  onChange={(e) => setFormData({ ...formData, sectionId: e.target.value })}
-                  className="w-full px-4 py-2 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">No Section</option>
-                  {sections.map((section) => (
-                    <option key={section.id} value={section.id}>
-                      {section.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div></div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">Description (English)</label>
                 <textarea
-                  placeholder="Category description"
+                  placeholder="Section description"
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={2}
@@ -255,7 +225,7 @@ export default function CategoriesPage() {
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium mb-2 text-slate-700 dark:text-slate-300">വിവരണം (Malayalam)</label>
                 <textarea
-                  placeholder="Category description in Malayalam"
+                  placeholder="Section description in Malayalam"
                   value={formData.descriptionMal}
                   onChange={(e) => setFormData({ ...formData, descriptionMal: e.target.value })}
                   rows={2}
@@ -268,7 +238,7 @@ export default function CategoriesPage() {
                 onClick={handleAdd}
                 className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium"
               >
-                Save Category
+                Save Section
               </button>
               <button
                 onClick={() => setShowForm(false)}
@@ -280,45 +250,46 @@ export default function CategoriesPage() {
           </div>
         )}
 
-        {/* Categories Grid */}
+        {/* Sections Grid */}
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {categories.map((category) => (
-              <div key={category.id} className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-6 hover:shadow-lg transition">
+            {sections.map((section) => (
+              <div
+                key={section.id}
+                className="bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-800 p-6 hover:shadow-lg transition"
+              >
                 <div className="flex items-start justify-between mb-3">
-                  <div className="text-3xl">{category.icon}</div>
+                  <div className="text-3xl">{section.icon}</div>
                   <div className="flex gap-1">
                     <Link
-                      href={`/desk/categories/${category.id}/edit`}
+                      href={`/desk/sections/${section.id}/edit`}
                       className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition text-blue-600 dark:text-blue-400"
                     >
                       <Edit2 size={16} />
                     </Link>
                     <button
-                      onClick={() => setDeleteId(category.id)}
+                      onClick={() => setDeleteId(section.id)}
                       className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition text-red-600 dark:text-red-400"
                     >
                       <Trash2 size={16} />
                     </button>
                   </div>
                 </div>
-                <h3 className="font-black text-lg mb-1">{category.name}</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">{category.description}</p>
+                <h3 className="font-black text-lg mb-1">{section.name}</h3>
+                <p className="text-sm text-slate-600 dark:text-slate-400 mb-4">{section.description}</p>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-slate-600 dark:text-slate-400">Slug:</span>
-                    <span className="font-mono text-slate-900 dark:text-white">{category.slug}</span>
+                    <span className="font-mono text-slate-900 dark:text-white">{section.slug}</span>
                   </div>
-                  {category.section && (
-                    <div className="flex justify-between">
-                      <span className="text-slate-600 dark:text-slate-400">Section:</span>
-                      <span className="font-bold text-slate-900 dark:text-white">{category.section.name}</span>
-                    </div>
-                  )}
+                  <div className="flex justify-between">
+                    <span className="text-slate-600 dark:text-slate-400">Categories:</span>
+                    <span className="font-bold text-slate-900 dark:text-white">{section.categories.length}</span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -330,9 +301,9 @@ export default function CategoriesPage() {
       {deleteId && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-slate-900 rounded-lg p-8 max-w-sm mx-4">
-            <h3 className="text-xl font-black mb-4">Delete Category?</h3>
+            <h3 className="text-xl font-black mb-4">Delete Section?</h3>
             <p className="text-slate-600 dark:text-slate-400 mb-6">
-              This category will be deleted. Articles in this category will need to be reassigned.
+              This section will be deleted. Categories in this section will be unassigned.
             </p>
             <div className="flex gap-3">
               <button
